@@ -1,0 +1,16 @@
+.AppleDouble
+*.pyc
+:2e_*
+*.tmproj
+.*.swp
+build
+dist
+MANIFEST
+docs/_build/
+*.egg-info
+.coverage
+coverage/
+.tox/
+.DS_Store
+.idea
+.venv
