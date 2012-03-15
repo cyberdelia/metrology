@@ -18,8 +18,8 @@ To install :
 
 ## Reporters
 
-## Logger Reporter
+### Logger Reporter
 
-## Graphite Reporter
+### Graphite Reporter
 
-## Librato Reporter
+### Librato Reporter
