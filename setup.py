@@ -13,6 +13,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'atomic',
+        'bintrees'
     ],
     include_package_data=True,
     classifiers=[
