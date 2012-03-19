@@ -34,4 +34,4 @@ class UtilizationTimerTest(TestCase):
         self.timer.meter.tick()
         self.timer.duration_meter.tick()
 
-        self.assertAlmostEqual(0.25, self.timer.one_minute_utilization(), 1)
+        self.assertAlmostEqual(0.25, self.timer.one_minute_utilization, 1)

@@ -49,15 +49,19 @@ class Meter(object):
         self.m5_rate.tick()
         self.m15_rate.tick()
 
+    @property
     def one_minute_rate(self):
         return self.m1_rate.rate
 
+    @property
     def five_minute_rate(self):
         return self.m5_rate.rate
 
+    @property
     def fifteen_minute_rate(self):
         return self.m15_rate.rate
 
+    @property
     def mean_rate(self):
         if self.counter.value == 0:
             return 0.0

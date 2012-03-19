@@ -1,4 +1,4 @@
-from metrology.reporter import Reporter
+from metrology.reporter.base import Reporter
 
 
 class GraphiteReporter(Reporter):

@@ -35,13 +35,15 @@ class Timer(object):
 
     @property
     def one_minute_rate(self):
-        return self.meter.one_minute_rate()
+        return self.meter.one_minute_rate
 
+    @property
     def five_minute_rate(self):
-        return self.meter.five_minute_rate()
+        return self.meter.five_minute_rate
 
+    @property
     def fifteen_minute_rate(self):
-        return self.meter.fifteen_minute_rate()
+        return self.meter.fifteen_minute_rate
 
     @property
     def mean_rate(self):
@@ -68,8 +70,8 @@ class Timer(object):
 
 
 class UtilizationTimer(Timer):
-    def __init__(self):
-        super(UtilizationTimer, self).__init__()
+    def __init__(self, histogram=HistogramExponentiallyDecaying):
+        super(UtilizationTimer, self).__init__(histogram)
         self.duration_meter = Meter()
 
     def clear(self):
@@ -81,17 +83,21 @@ class UtilizationTimer(Timer):
         if duration >= 0:
             self.duration_meter.mark(duration)
 
+    @property
     def one_minute_utilization(self):
-        return self.duration_meter.one_minute_rate()
+        return self.duration_meter.one_minute_rate
 
+    @property
     def five_minute_utilization(self):
-        return self.duration_meter.five_minute_rate()
+        return self.duration_meter.five_minute_rate
 
+    @property
     def fifteen_minute_utilization(self):
-        return self.duration_meter.fifteen_minute_rate()
+        return self.duration_meter.fifteen_minute_rate
 
+    @property
     def mean_utilization(self):
-        return self.duration_meter.mean_rate()
+        return self.duration_meter.mean_rate
 
     def stop(self):
         super(UtilizationTimer, self).stop()

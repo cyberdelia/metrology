@@ -25,3 +25,7 @@ class Metrology(object):
     @classmethod
     def utilization_timer(cls, name):
         return registry.utilization_timer(name)
+
+    @classmethod
+    def stop(cls):
+        return registry.stop()
