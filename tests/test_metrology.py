@@ -24,3 +24,9 @@ class MetrologyTest(TestCase):
 
     def test_gauge(self):
         self.assertTrue(Metrology.gauge('test', Gauge) is not None)
+
+    def test_timer(self):
+        self.assertTrue(Metrology.timer('test') is not None)
+
+    def test_utilization_timer(self):
+        self.assertTrue(Metrology.utilization_timer('test') is not None)

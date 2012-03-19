@@ -24,3 +24,9 @@ class RegistryTest(TestCase):
 
     def test_gauge(self):
         self.assertTrue(self.registry.gauge('test', DummyGauge()) is not None)
+
+    def test_timer(self):
+        self.assertTrue(self.registry.timer('test') is not None)
+
+    def test_utilization_timer(self):
+        self.assertTrue(self.registry.utilization_timer('test') is not None)

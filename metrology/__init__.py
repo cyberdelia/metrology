@@ -17,3 +17,11 @@ class Metrology(object):
     @classmethod
     def gauge(cls, name, gauge):
         return registry.gauge(name, gauge)
+
+    @classmethod
+    def timer(cls, name):
+        return registry.timer(name)
+
+    @classmethod
+    def utilization_timer(cls, name):
+        return registry.utilization_timer(name)

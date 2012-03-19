@@ -2,7 +2,7 @@ import inspect
 
 from threading import RLock
 
-from metrology.instruments import Counter, Meter
+from metrology.instruments import Counter, Meter, Timer, UtilizationTimer
 
 
 class Registry(object):
@@ -25,6 +25,12 @@ class Registry(object):
 
     def gauge(self, name, klass):
         return self.add_or_get(name, klass)
+
+    def timer(self, name):
+        return self.add_or_get(name, Timer)
+
+    def utilization_timer(self, name):
+        return self.add_or_get(name, UtilizationTimer)
 
     def get(self, name):
         with self.lock:
