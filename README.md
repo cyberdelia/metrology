@@ -38,6 +38,10 @@ To install :
 
 ### Logger Reporter
 
+    >>> from metrology.reporter.logger import LoggerReporter
+    >>> reporter = LoggerReporter()
+    >>> reporter.start()
+
 ### Graphite Reporter
 
 ### Librato Reporter
