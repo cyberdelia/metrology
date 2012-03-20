@@ -1,7 +1,7 @@
 try:
     from StringIO import StringIO
 except ImportError:
-    from io import StringIO
+    from io import StringIO  # noqa
 
 from mock import patch
 from unittest import TestCase
@@ -23,7 +23,7 @@ class GraphiteReporterTest(TestCase):
         self.reporter.stop()
         Metrology.stop()
 
-    @patch.object(GraphiteReporter, 'socket') 
+    @patch.object(GraphiteReporter, 'socket')
     def test_send(self, mock):
         self.reporter.write()
         self.assertTrue(mock.send.assert_called())
