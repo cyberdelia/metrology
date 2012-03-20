@@ -4,3 +4,7 @@ class MetrologyException(Exception):
 
 class ArgumentException(MetrologyException):
     pass
+
+
+class ReporterException(MetrologyException):
+    pass
