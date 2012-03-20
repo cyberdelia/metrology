@@ -44,4 +44,8 @@ To install :
 
 ### Graphite Reporter
 
+    >>> from metrology.reporter.graphite import GraphiteReporter
+    >>> reporter = GraphiteReporter('localhost', 3333)
+    >>> reporter.start()
+
 ### Librato Reporter
