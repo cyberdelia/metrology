@@ -14,7 +14,4 @@ class StatsdReporter(Reporter):
 
     def write(self):
         for name, metric in self.registry:
-            if isinstance(metric, Meter):
-                pass
-            if isinstance(metric, Gauge):
-                pass
+            pass
