@@ -1,9 +1,9 @@
 import time
-from threading import Thread
 
 from atomic import Atomic
 
 from metrology.stats import EWMA
+from metrology.utils.periodic import PeriodicTask
 
 
 class Meter(object):
@@ -15,15 +15,9 @@ class Meter(object):
         self.m5_rate = EWMA.m5()
         self.m15_rate = EWMA.m15()
 
-        self.running = True
-
-        def timer():
-            while self.running:
-                time.sleep(average_class.INTERVAL)
-                self.tick()
-
-        self.thread = Thread(target=timer)
-        self.thread.start()
+        self.task = PeriodicTask(interval=average_class.INTERVAL,
+            target=self.tick)
+        self.task.start()
 
     @property
     def count(self):
@@ -70,4 +64,4 @@ class Meter(object):
             return self.counter.value / elapsed
 
     def stop(self):
-        self.running = False
+        self.task.stop()
