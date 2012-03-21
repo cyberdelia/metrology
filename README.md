@@ -48,4 +48,7 @@ To install :
     >>> reporter = GraphiteReporter('localhost', 3333)
     >>> reporter.start()
 
-### Librato Reporter
+
+### Acknowledgement
+
+This is heavily inspired by the awesome [metrics](https://github.com/codahale/metrics) library.
