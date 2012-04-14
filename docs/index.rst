@@ -1,20 +1,22 @@
-.. metrology documentation master file, created by
-   sphinx-quickstart on Thu Mar 22 11:40:53 2012.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Introduction
+============
 
-Welcome to metrology's documentation!
-=====================================
+A library to easily measure what's going on in your python.
 
-Contents:
+You can report bugs and discuss features on the `issues page <https://github.com/cyberdelia/metrology/issues>`_.
+
+Table Of Contents
+=================
 
 .. toctree::
    :maxdepth: 2
 
+   installation
+   instruments
+   reporters
+
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
