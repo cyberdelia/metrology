@@ -16,8 +16,6 @@ class Meter(object):
 
     """
     def __init__(self, average_class=EWMA):
-        """
-        """
         self.counter = Atomic(0)
         self.start_time = time.time()
 
