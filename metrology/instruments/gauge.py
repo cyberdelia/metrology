@@ -6,12 +6,24 @@ from atomic import Atomic
 
 
 class Gauge(object):
+    """
+    A gauge is an instantaneous measurement of a value ::
+    
+      class JobGauge(metrology.instruments.Gauge):
+          def value(self):
+              return len(queue)
+    
+      gauge = Metrology.gauge('pending-jobs', JobGauge())
+    
+    """
     @property
     def value(self):
+        """"""
         raise NotImplementedError
 
 
 class RatioGauge(Gauge):
+    """A ratio gauge is a simple way to create a gauge which is the ratio between two numbers"""
     def numerator(self):
         raise NotImplementedError
 
@@ -27,6 +39,7 @@ class RatioGauge(Gauge):
 
 
 class PercentGauge(RatioGauge):
+    """A percent gauge is a ratio gauge where the result is normalized to a value between 0 and 100."""
     @property
     def value(self):
         value = super(PercentGauge, self).value

@@ -4,39 +4,35 @@
 Instruments
 ===========
 
+Gauges
+======
+
+.. automodule:: metrology.instruments.gauge
+  :members:
+
+
 Counters
 ========
 
-::
-
-  counter = Metrology.counter('call')
-  counter.increment()
+.. automodule:: metrology.instruments.counter
+    :members:
 
 Meters
 ======
 
-::
+.. automodule:: metrology.instruments.meter
+  :members:
 
-  meter = Metrology.meter('request')
-  meter.mark()
+Histograms
+==========
 
-
-Timers
-======
-
-::
-
-  timer = Metrology.timer('request')
-  with timer:
-      do_something()
+.. automodule:: metrology.instruments.histogram
+  :members:
 
 
-Utilization Timers
-==================
+Timers and utilization timers
+=============================
 
-::
-
-  utimer = Metrology.utilization_timer('request')
-  with utimer:
-      do_something()
-
+.. automodule:: metrology.instruments.timer
+  :members:
+  :inherited-members:

@@ -6,6 +6,14 @@ from metrology.stats.sample import UniformSample, ExponentiallyDecayingSample
 
 
 class Histogram(object):
+    """
+    A histogram measures the statistical distribution of values in a stream of data. In addition to minimum, maximum, mean, it also measures median, 75th, 90th, 95th, 98th, 99th, and 99.9th percentiles ::
+    
+      histogram = Metrology.histogram('response-sizes')
+      histogram.update(len(response.content))
+    
+    Metrology provides two types of histograms: uniform and exponentially decaying.
+    """
     DEFAULT_SAMPLE_SIZE = 1028
     DEFAULT_ALPHA = 0.015
 
@@ -41,6 +49,7 @@ class Histogram(object):
 
     @property
     def count(self):
+        """Return number of values."""
         return self.counter.value
 
     def get_max(self):
@@ -55,7 +64,7 @@ class Histogram(object):
             done = (current_max is not None and current_max >= potential_max) \
                 or self.maximum.compare_and_swap(current_max, potential_max)
 
-    max = property(get_max, set_max)
+    max = property(get_max, set_max, doc="""Returns the maximun value.""")
 
     def get_min(self):
         if self.counter.value > 0:
@@ -69,22 +78,25 @@ class Histogram(object):
             done = (current_min is not None and current_min <= potential_min) \
                 or self.minimum.compare_and_swap(current_min, potential_min)
 
-    min = property(get_min, set_min)
+    min = property(get_min, set_min, doc="""Returns the minimum value.""")
 
     @property
     def mean(self):
+        """Returns the mean value."""
         if self.counter.value > 0:
             return self.sum.value / self.counter.value
         return 0.0
 
     @property
     def stddev(self):
+        """Returns the standard deviation."""
         if self.counter.value > 0:
             return self.var.value
         return 0.0
 
     @property
     def variance(self):
+        """Returns variance"""
         if self.counter.value <= 1:
             return 0.0
         return self.var.value[1] / (self.counter.value - 1)
@@ -108,12 +120,21 @@ class Histogram(object):
 
 
 class HistogramUniform(Histogram):
+    """
+    A uniform histogram produces quantiles which are valid for the entirely of the histogram's lifetime. It will return a median value, for example, which is the median of all the values the histogram has ever been updated with.
+    
+    Use a uniform histogram when you're interested in long-term measurements. Don't use one where you'd want to know if the distribution of the underlying data stream has changed recently.
+    """
     def __init__(self):
         sample = UniformSample(self.DEFAULT_SAMPLE_SIZE)
         super(HistogramUniform, self).__init__(sample)
 
 
 class HistogramExponentiallyDecaying(Histogram):
+    """
+    A exponentially decaying histogram produces quantiles which are representative of approximately the last five minutes of data.
+    Unlike the uniform histogram, a biased histogram represents recent data, allowing you to know very quickly if the distribution of the data has changed.
+    """
     def __init__(self):
         sample = ExponentiallyDecayingSample(self.DEFAULT_SAMPLE_SIZE, self.DEFAULT_ALPHA)
         super(HistogramExponentiallyDecaying, self).__init__(sample)
