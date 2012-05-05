@@ -5,10 +5,9 @@ from metrology.instruments.meter import Meter
 
 
 class Timer(object):
-    """Timers
-    
+    """
     A timer measures both the rate that a particular piece of code is called and the distribution of its duration ::
-    
+
       timer = Metrology.timer('responses')
       with timer:
           do_something()
@@ -91,11 +90,11 @@ class Timer(object):
 class UtilizationTimer(Timer):
     """
     A specialized timer that calculates the percentage of wall-clock time that was spent ::
-    
+
       utimer = Metrology.utilization_timer('responses')
       with utimer:
         do_something()
-    
+
     """
     def __init__(self, histogram=HistogramExponentiallyDecaying):
         super(UtilizationTimer, self).__init__(histogram)

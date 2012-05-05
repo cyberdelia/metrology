@@ -9,7 +9,7 @@ from metrology.utils.periodic import PeriodicTask
 class Meter(object):
     """A meter measures the rate of events over time (e.g., "requests per second").
     In addition to the mean rate, you can also track 1, 5 and 15 minutes moving averages ::
-    
+
       meter = Metrology.meter('requests')
       meter.mark()
       meter.count
@@ -44,7 +44,7 @@ class Meter(object):
 
     def mark(self, value=1):
         """Record an event with the meter. By default it will record one event.
-        
+
         :param value: number of event to record
         """
         with self.counter:

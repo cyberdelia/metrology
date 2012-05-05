@@ -8,13 +8,13 @@ from atomic import Atomic
 class Gauge(object):
     """
     A gauge is an instantaneous measurement of a value ::
-    
+
       class JobGauge(metrology.instruments.Gauge):
           def value(self):
               return len(queue)
-    
+
       gauge = Metrology.gauge('pending-jobs', JobGauge())
-    
+
     """
     @property
     def value(self):

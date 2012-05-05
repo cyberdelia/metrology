@@ -8,10 +8,10 @@ from metrology.stats.sample import UniformSample, ExponentiallyDecayingSample
 class Histogram(object):
     """
     A histogram measures the statistical distribution of values in a stream of data. In addition to minimum, maximum, mean, it also measures median, 75th, 90th, 95th, 98th, 99th, and 99.9th percentiles ::
-    
+
       histogram = Metrology.histogram('response-sizes')
       histogram.update(len(response.content))
-    
+
     Metrology provides two types of histograms: uniform and exponentially decaying.
     """
     DEFAULT_SAMPLE_SIZE = 1028
@@ -122,7 +122,7 @@ class Histogram(object):
 class HistogramUniform(Histogram):
     """
     A uniform histogram produces quantiles which are valid for the entirely of the histogram's lifetime. It will return a median value, for example, which is the median of all the values the histogram has ever been updated with.
-    
+
     Use a uniform histogram when you're interested in long-term measurements. Don't use one where you'd want to know if the distribution of the underlying data stream has changed recently.
     """
     def __init__(self):

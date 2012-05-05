@@ -4,25 +4,26 @@ from atomic import Atomic
 class Counter(object):
     """
     A counter is like a gauge, but you can increment or decrement its value ::
-    
+
       counter = Metrology.counter('pending-jobs')
       counter.increment()
       counter.decrement()
       counter.count
+
     """
     def __init__(self):
         self._count = Atomic(0)
 
     def increment(self, value=1):
         """Increment the counter. By default it will increment by 1.
-        
+
         :param value: value to increment the counter.
         """
         self._count.value += value
 
     def decrement(self, value=1):
         """Decrement the counter. By default it will decrement by 1.
-        
+
         :param value: value to decrement the counter.
         """
         self._count.value -= value
