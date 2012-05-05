@@ -2,11 +2,17 @@ from unittest import TestCase
 
 from metrology.registry import Registry
 from metrology.instruments.gauge import Gauge
+from metrology.instruments.healthcheck import HealthCheck
 
 
 class DummyGauge(Gauge):
     def value(self):
         return "wow"
+
+
+class DummyHealthCheck(HealthCheck):
+    def check(self):
+        return True
 
 
 class RegistryTest(TestCase):
@@ -33,3 +39,6 @@ class RegistryTest(TestCase):
 
     def test_histogram(self):
         self.assertTrue(self.registry.histogram('test') is not None)
+
+    def test_health_check(self):
+        self.assertTrue(self.registry.health_check('test', DummyHealthCheck()) is not None)

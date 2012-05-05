@@ -36,3 +36,10 @@ Timers and utilization timers
 .. automodule:: metrology.instruments.timer
   :members:
   :inherited-members:
+
+
+Health Checks
+=============
+
+.. automodule:: metrology.instruments.healthcheck
+  :members:

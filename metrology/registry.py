@@ -32,6 +32,9 @@ class Registry(object):
     def utilization_timer(self, name):
         return self.add_or_get(name, UtilizationTimer)
 
+    def health_check(self, name, klass):
+        return self.add_or_get(name, klass)
+
     def histogram(self, name, klass=None):
         if not klass:
             klass = HistogramUniform

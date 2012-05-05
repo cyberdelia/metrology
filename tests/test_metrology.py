@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from metrology import Metrology
 from metrology.instruments.gauge import Gauge
+from metrology.instruments.healthcheck import HealthCheck
 from metrology.registry import registry
 
 
@@ -33,3 +34,6 @@ class MetrologyTest(TestCase):
 
     def test_histogram(self):
         self.assertTrue(Metrology.histogram('test') is not None)
+
+    def test_health_check(self):
+        self.assertTrue(Metrology.health_check('test', HealthCheck) is not None)

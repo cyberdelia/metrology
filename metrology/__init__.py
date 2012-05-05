@@ -31,5 +31,9 @@ class Metrology(object):
         return registry.histogram(name, histogram)
 
     @classmethod
+    def health_check(cls, name, health_check):
+        return registry.health_check(name, health_check)
+
+    @classmethod
     def stop(cls):
         return registry.stop()
