@@ -27,5 +27,9 @@ class Metrology(object):
         return registry.utilization_timer(name)
 
     @classmethod
+    def histogram(cls, name, histogram=None):
+        return registry.histogram(name, histogram)
+
+    @classmethod
     def stop(cls):
         return registry.stop()

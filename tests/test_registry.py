@@ -30,3 +30,6 @@ class RegistryTest(TestCase):
 
     def test_utilization_timer(self):
         self.assertTrue(self.registry.utilization_timer('test') is not None)
+
+    def test_histogram(self):
+        self.assertTrue(self.registry.histogram('test') is not None)

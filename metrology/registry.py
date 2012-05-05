@@ -2,7 +2,7 @@ import inspect
 
 from threading import RLock
 
-from metrology.instruments import Counter, Meter, Timer, UtilizationTimer
+from metrology.instruments import Counter, Meter, Timer, UtilizationTimer, HistogramUniform
 
 
 class Registry(object):
@@ -31,6 +31,11 @@ class Registry(object):
 
     def utilization_timer(self, name):
         return self.add_or_get(name, UtilizationTimer)
+
+    def histogram(self, name, klass=None):
+        if not klass:
+            klass = HistogramUniform
+        return self.add_or_get(name, klass)
 
     def get(self, name):
         with self.lock:
