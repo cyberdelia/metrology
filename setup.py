@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metrology',
-    version='0.3.1',
+    version='0.3.2',
     description='A library to easily measure what\'s going on in your python.',
     author='Timothée Peignier',
     author_email='timothee.peignier@tryphon.org',
