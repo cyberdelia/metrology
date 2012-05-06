@@ -12,7 +12,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        'atomic',
+        'atomic>=0.3',
         'bintrees'
     ],
     include_package_data=True,

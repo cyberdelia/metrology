@@ -34,13 +34,11 @@ class Histogram(object):
         self.var.value = [-1, 0]
 
     def update(self, value):
-        with self.counter:
-            self.counter.value += 1
+        self.counter.update(lambda v: v + 1)
         self.sample.update(value)
         self.max = value
         self.min = value
-        with self.sum:
-            self.sum.value += value
+        self.sum.update(lambda v: v + value)
         self.update_variance(value)
 
     @property
@@ -102,8 +100,7 @@ class Histogram(object):
         return self.var.value[1] / (self.counter.value - 1)
 
     def update_variance(self, value):
-        with self.var:
-            old_values = self.var.value
+        def variance(old_values):
             if old_values[0] == -1:
                 new_values = (value, 0)
             else:
@@ -114,9 +111,8 @@ class Histogram(object):
                 new_s = old_s + ((value - old_m) * (value - new_m))
 
                 new_values = (new_m, new_s)
-
-            self.var.value = new_values
             return new_values
+        self.var.update(variance)
 
 
 class HistogramUniform(Histogram):

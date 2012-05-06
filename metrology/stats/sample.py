@@ -31,9 +31,7 @@ class UniformSample(object):
         return Snapshot(self.values[0:self.size()])
 
     def update(self, value):
-        with self.counter:
-            self.counter.value += 1
-            new_count = self.counter.value
+        new_count = self.counter.update(lambda v: v + 1)
 
         if new_count <= len(self.values):
             self.values[new_count - 1] = value
@@ -92,9 +90,7 @@ class ExponentiallyDecayingSample(object):
             timestamp = time.time()
         with self.lock:
             priority = self.weight(timestamp - self.start_time) / random.random()
-            with self.counter:
-                self.counter.value += 1
-                new_count = self.counter.value
+            new_count = self.counter.update(lambda v: v + 1)
 
             if math.isnan(priority):
                 return

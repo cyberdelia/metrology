@@ -41,8 +41,7 @@ class EWMA(object):
         self._uncounted.value = 0
 
     def update(self, value):
-        with self._uncounted:
-            self._uncounted.value += value
+        self._uncounted.update(lambda v: v + value)
 
     def tick(self):
         count = self._uncounted.swap(0)

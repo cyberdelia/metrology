@@ -45,8 +45,7 @@ class Meter(object):
 
         :param value: number of event to record
         """
-        with self.counter:
-            self.counter.value += value
+        self.counter.update(lambda v: v + value)
         self.m1_rate.update(value)
         self.m5_rate.update(value)
         self.m15_rate.update(value)

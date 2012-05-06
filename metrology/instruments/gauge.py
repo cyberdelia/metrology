@@ -52,6 +52,6 @@ class ToggleGauge(Gauge):
     @property
     def value(self):
         try:
-            return self._value.get()
+            return self._value.value
         finally:
-            self._value.set(0)
+            self._value.value = 0
