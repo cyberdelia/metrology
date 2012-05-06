@@ -19,14 +19,14 @@ class Counter(object):
 
         :param value: value to increment the counter.
         """
-        self._count.value += value
+        self._count.update(lambda v: v + value)
 
     def decrement(self, value=1):
         """Decrement the counter. By default it will decrement by 1.
 
         :param value: value to decrement the counter.
         """
-        self._count.value -= value
+        self._count.update(lambda v: v - value)
 
     def clear(self):
         self._count.value = 0
