@@ -1,6 +1,6 @@
 import math
 import random
-import time
+from time import time
 
 from atomic import Atomic
 from bintrees.rbtree import RBTree
@@ -12,10 +12,10 @@ from metrology.stats.snapshot import Snapshot
 class UniformSample(object):
     def __init__(self, reservoir_size):
         self.counter = Atomic(0)
-        self.values = [0 for i in range(reservoir_size)]
+        self.values = [0] * reservoir_size
 
     def clear(self):
-        self.values = [0 for i in range(len(self.values))]
+        self.values = [0] * len(self.values)
         self.counter.value = 0
 
     def size(self):
@@ -57,8 +57,8 @@ class ExponentiallyDecayingSample(object):
         with self.lock:
             self.values.clear()
             self.counter.value = 0
-            self.next_scale_time.value = time.time() + self.RESCALE_THRESHOLD
-            self.start_time = time.time()
+            self.next_scale_time.value = time() + self.RESCALE_THRESHOLD
+            self.start_time = time()
 
     def size(self):
         count = self.counter.value
@@ -80,14 +80,14 @@ class ExponentiallyDecayingSample(object):
         if self.next_scale_time.compare_and_swap(next_time, now + self.RESCALE_THRESHOLD):
             with self.lock:
                 old_start_time = self.start_time
-                self.start_time = time.time()
+                self.start_time = time()
                 for key in list(self.values.keys()):
                     value = self.values.remove(key)
                 self.values[key * math.exp(-self.alpha * (self.start_time - old_start_time))] = value
 
     def update(self, value, timestamp=None):
         if not timestamp:
-            timestamp = time.time()
+            timestamp = time()
         with self.lock:
             priority = self.weight(timestamp - self.start_time) / random.random()
             new_count = self.counter.update(lambda v: v + 1)

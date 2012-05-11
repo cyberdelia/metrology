@@ -52,7 +52,9 @@ class LoggerReporter(Reporter):
                     'median', 'percentile_95th'
                 ])
 
-    def log_metric(self, name, type, metric, keys, snapshot_keys=[]):
+    def log_metric(self, name, type, metric, keys, snapshot_keys=None):
+        if snapshot_keys is None:
+            snapshot_keys = []
         messages = []
         if self.prefix:
             messages.append(self.prefix)

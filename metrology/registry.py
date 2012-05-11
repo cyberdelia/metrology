@@ -12,10 +12,10 @@ class Registry(object):
 
     def clear(self):
         with self.lock:
-            for key, metric in list(self.metrics.items()):
+            for metric in self.metrics.values():
                 if hasattr(metric, 'stop'):
                     metric.stop()
-        self.metrics = {}
+            self.metrics.clear()
 
     def counter(self, name):
         return self.add_or_get(name, Counter)
@@ -47,31 +47,30 @@ class Registry(object):
     def add(self, name, metric):
         with self.lock:
             if name in self.metrics:
-                raise
+                raise RuntimeError("%s already present in the registry." % name)
             else:
                 self.metrics[name] = metric
 
     def add_or_get(self, name, klass):
         with self.lock:
-            if name in self.metrics:
-                metric = self.metrics[name]
+            metric = self.metrics.get(name)
+            if metric is not None:
                 if not isinstance(metric, klass):
-                    raise
-                else:
-                    return metric
+                    raise RuntimeError("%s is not of type %s." % (name, klass))
             else:
                 if inspect.isclass(klass):
-                    self.metrics[name] = klass()
+                    metric = klass()
                 else:
-                    self.metrics[name] = klass
-                return self.metrics[name]
+                    metric = klass
+                self.metrics[name] = metric
+            return metric
 
     def stop(self):
         self.clear()
 
     def __iter__(self):
         with self.lock:
-            for name, metric in list(self.metrics.items()):
+            for name, metric in self.metrics.items():
                 yield name, metric
 
 registry = Registry()
