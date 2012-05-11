@@ -12,10 +12,10 @@ from metrology.stats.snapshot import Snapshot
 class UniformSample(object):
     def __init__(self, reservoir_size):
         self.counter = Atomic(0)
-        self.values = [0 for i in xrange(reservoir_size)]
+        self.values = [0] * reservoir_size
 
     def clear(self):
-        self.values = [0 for i in xrange(len(self.values))]
+        self.values = [0] * len(self.values)
         self.counter.value = 0
 
     def size(self):

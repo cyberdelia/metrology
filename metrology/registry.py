@@ -12,7 +12,7 @@ class Registry(object):
 
     def clear(self):
         with self.lock:
-            for metric in self.metrics.itervalues():
+            for metric in self.metrics.values():
                 if hasattr(metric, 'stop'):
                     metric.stop()
             self.metrics.clear()
@@ -70,7 +70,7 @@ class Registry(object):
 
     def __iter__(self):
         with self.lock:
-            for name, metric in self.metrics.iteritems():
+            for name, metric in self.metrics.items():
                 yield name, metric
 
 registry = Registry()
