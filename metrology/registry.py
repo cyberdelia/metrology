@@ -47,7 +47,7 @@ class Registry(object):
     def add(self, name, metric):
         with self.lock:
             if name in self.metrics:
-                raise RuntimeError, "%s already present in the registry." % name
+                raise RuntimeError("%s already present in the registry." % name)
             else:
                 self.metrics[name] = metric
 
@@ -56,7 +56,7 @@ class Registry(object):
             metric = self.metrics.get(name)
             if metric is not None:
                 if not isinstance(metric, klass):
-                    raise RuntimeError, "%s is not of type %s." % (name, klass)
+                    raise RuntimeError("%s is not of type %s." % (name, klass))
             else:
                 if inspect.isclass(klass):
                     metric = klass()
