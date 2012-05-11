@@ -1,4 +1,4 @@
-import time
+from time import time
 
 from metrology.instruments.histogram import HistogramExponentiallyDecaying
 from metrology.instruments.meter import Meter
@@ -32,11 +32,11 @@ class Timer(object):
         return self.histogram.snapshot
 
     def __enter__(self):
-        self.start_time = time.time()
+        self.start_time = time()
         return self
 
     def __exit__(self, type, value, callback):
-        self.update(time.time() - self.start_time)
+        self.update(time() - self.start_time)
 
     @property
     def count(self):

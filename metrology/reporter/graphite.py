@@ -1,6 +1,6 @@
 import re
 import socket
-import time
+from time import time
 
 from metrology.instruments import *  # noqa
 from metrology.reporter.base import Reporter
@@ -61,7 +61,9 @@ class GraphiteReporter(Reporter):
                     'median', 'percentile_95th'
                 ])
 
-    def send_metric(self, name, type, metric, keys, snapshot_keys=[]):
+    def send_metric(self, name, type, metric, keys, snapshot_keys=None):
+        if snapshot_keys is None:
+            snapshot_keys = []
         base_name = re.sub(r"\s+", "_", name)
         if self.prefix:
             base_name = "{0}.{1}".format(self.prefix, base_name)
@@ -69,7 +71,7 @@ class GraphiteReporter(Reporter):
         for name in keys:
             value = getattr(metric, name)
             self.socket.send("{0}.{1} {2} {3}\n\n".format(
-                base_name, name, value, int(time.time())
+                base_name, name, value, int(time())
             ))
 
         if hasattr(metric, 'snapshot'):
@@ -77,5 +79,5 @@ class GraphiteReporter(Reporter):
             for name in snapshot_keys:
                 value = getattr(snapshot, name)
                 self.socket.send("{0}.{1} {2} {3}\n\n".format(
-                    base_name, name, value, int(time.time())
+                    base_name, name, value, int(time())
                 ))

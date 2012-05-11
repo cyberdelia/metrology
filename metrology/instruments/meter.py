@@ -1,4 +1,4 @@
-import time
+from time import time
 
 from atomic import Atomic
 
@@ -17,7 +17,7 @@ class Meter(object):
     """
     def __init__(self, average_class=EWMA):
         self.counter = Atomic(0)
-        self.start_time = time.time()
+        self.start_time = time()
 
         self.m1_rate = EWMA.m1()
         self.m5_rate = EWMA.m5()
@@ -34,7 +34,7 @@ class Meter(object):
 
     def clear(self):
         self.counter.value = 0
-        self.start_time = time.time()
+        self.start_time = time()
 
         self.m1_rate.clear()
         self.m5_rate.clear()
@@ -76,7 +76,7 @@ class Meter(object):
         if self.counter.value == 0:
             return 0.0
         else:
-            elapsed = time.time() - self.start_time
+            elapsed = time() - self.start_time
             return self.counter.value / elapsed
 
     def stop(self):

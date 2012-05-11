@@ -18,5 +18,5 @@ class HealthCheck(object):
 
     """
     def check(self):
-        """Returns True if what is being checker is healthy"""
+        """Returns True if what is being checked is healthy"""
         raise NotImplementedError
