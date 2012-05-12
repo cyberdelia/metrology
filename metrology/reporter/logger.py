@@ -5,6 +5,17 @@ from metrology.reporter.base import Reporter
 
 
 class LoggerReporter(Reporter):
+    """
+    A logging reporter that write metrics to a logger ::
+
+      reporter = LoggerReporter('graphite.local', 2003)
+      reporter.start()
+
+    :param logger: logger to use
+    :param level: logger level
+    :param interval: time between each reporting
+    :param prefix: metrics name prefix
+    """
     def __init__(self, logger=logging, level=logging.INFO, **options):
         self.logger = logger
         self.level = level

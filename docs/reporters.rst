@@ -7,11 +7,23 @@ Reporters
 Graphite
 ========
 
-Librato
-=======
+.. automodule:: metrology.reporter.graphite
+    :members:
 
 Logging
 =======
 
+.. automodule:: metrology.reporter.logger
+    :members:
+
+Librato
+=======
+
+.. automodule:: metrology.reporter.librato
+    :members:
+
 Statsd
 ======
+
+.. automodule:: metrology.reporter.statsd
+    :members:

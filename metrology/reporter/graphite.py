@@ -7,6 +7,17 @@ from metrology.reporter.base import Reporter
 
 
 class GraphiteReporter(Reporter):
+    """
+    A graphite reporter that send metrics to graphite ::
+
+      reporter = GraphiteReporter('graphite.local', 2003)
+      reporter.start()
+
+    :param host: hostname of graphite
+    :param port: port of graphite
+    :param interval: time between each reporting
+    :param prefix: metrics name prefix
+    """
     def __init__(self, host, port, **options):
         self.host = host
         self.port = port
