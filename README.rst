@@ -4,6 +4,8 @@ Metrology
 
 A library to easily measure what's going on in your python.
 
+Metrology allows you to add instruments to your python code and hook them to external reporting tools like Graphite so as to better understand what's going on in your running python program.
+
 Installing
 ==========
 
