@@ -8,7 +8,7 @@ class LoggerReporter(Reporter):
     """
     A logging reporter that write metrics to a logger ::
 
-      reporter = LoggerReporter('graphite.local', 2003)
+      reporter = LoggerReporter(level=logging.DEBUG, interval=10)
       reporter.start()
 
     :param logger: logger to use

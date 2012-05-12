@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+with open('README.rst') as f:
+    readme = f.read()
 
 setup(
     name='metrology',
     version='0.3.2',
     description='A library to easily measure what\'s going on in your python.',
+    long_description=readme,
     author='Timothée Peignier',
     author_email='timothee.peignier@tryphon.org',
     url='https://github.com/cyberdelia/metrology',
