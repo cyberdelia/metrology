@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
+
 with open('README.rst') as f:
     readme = f.read()
+
+with open('LICENSE') as f:
+    license = f.read()
 
 setup(
     name='metrology',
@@ -12,6 +16,7 @@ setup(
     author='Timothée Peignier',
     author_email='timothee.peignier@tryphon.org',
     url='https://github.com/cyberdelia/metrology',
+    license=license,
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
