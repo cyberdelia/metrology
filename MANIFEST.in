@@ -1,0 +1,4 @@
+include docs/*
+include AUTHORS
+include LICENSE
+include README.rst
