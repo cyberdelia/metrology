@@ -88,6 +88,15 @@ A graphite reporter that send metrics to graphite ::
     reporter.start()
 
 
+Librato Reporter
+----------------
+
+A librator metric reporter that send metrics to librato API ::
+
+    reporter = LibratoReporter("<emai>", "<token>")
+    reporter.start()
+
+
 Acknowledgement
 ===============
 
