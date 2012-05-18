@@ -1,3 +1,8 @@
+import re
+
+from json import dumps
+from time import time
+
 from metrology.exceptions import ReporterException
 from metrology.instruments import *  # noqa
 from metrology.reporter.base import Reporter
@@ -13,23 +18,25 @@ class LibratoReporter(Reporter):
         except:
             raise ReporterException("Librato reporter requires the 'requests' library")
 
+        self.filters = options.get('filters')
+        self.excludes = options.get('excludes')
         self.source = options.get('source')
         self.prefix = options.get('prefix')
         super(LibratoReporter, self).__init__(**options)
 
-    def write(self):
+    def list_metrics(self):
         for name, metric in self.registry:
             if isinstance(metric, Meter):
-                self.send_metric(name, 'meter', metric, [
+                yield self.prepare_metric(name, 'meter', metric, [
                     'count', 'one_minute_rate', 'five_minute_rate',
                     'fifteen_minute_rate', 'mean_rate'
                 ])
             if isinstance(metric, Gauge):
-                self.send_metric(name, 'gauge', metric, [
+                yield self.prepare_metric(name, 'gauge', metric, [
                     'value'
                 ])
             if isinstance(metric, UtilizationTimer):
-                self.send_metric(name, 'timer', metric, [
+                yield self.prepare_metric(name, 'timer', metric, [
                     'count', 'one_minute_rate', 'five_minute_rate',
                     'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev',
@@ -39,7 +46,7 @@ class LibratoReporter(Reporter):
                     'median', 'percentile_95th'
                 ])
             if isinstance(metric, Timer):
-                self.send_metric(name, 'timer', metric, [
+                yield self.prepare_metric(name, 'timer', metric, [
                     'count', 'one_minute_rate', 'five_minute_rate',
                     'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev'
@@ -47,25 +54,58 @@ class LibratoReporter(Reporter):
                     'median', 'percentile_95th'
                 ])
             if isinstance(metric, Counter):
-                self.send_metric(name, 'counter', metric, [
+                yield self.prepare_metric(name, 'counter', metric, [
                     'count'
                 ])
             if isinstance(metric, Histogram):
-                sef.send_metric(name, 'histogram', metric, [
+                yield self.prepare_metric(name, 'histogram', metric, [
                     'count', 'min', 'max', 'mean', 'stddev',
                 ], [
                     'median', 'percentile_95th'
                 ])
 
-    def send_write(self, name, type, metric, keys, snapshot_keys=[]):
+    def write(self):
+        import requests
+        metrics = {
+            "gauges": [data for metric in self.list_metrics() for type, data in metric if type == "gauge"],
+            "counters": [data for metric in self.list_metrics() for type, data in metric if type == "counter"]
+        }
+        requests.post("https://metrics-api.librato.com/v1/metrics",
+            data=dumps(metrics),
+            auth=(self.email, self.token))
+
+    def prepare_metric(self, name, type, metric, keys, snapshot_keys=[]):
         base_name = re.sub(r"\s+", "_", name)
         if self.prefix:
             base_name = "{0}.{1}".format(self.prefix, base_name)
 
+        now = int(time())
+        type = "gauge" if type != "counter" else "counter"
+
+        if self.filters:
+            keys = filter(lambda key: key in self.filters, keys)
+            snapshot_keys = filter(lambda key: key in self.filters, snapshot_keys)
+
+        if self.excludes:
+            keys = filter(lambda key: key not in self.excludes, keys)
+            snapshot_keys = filter(lambda key: key in self.excludes, snapshot_keys)
+
         for name in keys:
-            pass
+            value = getattr(metric, name)
+            yield type, {
+                "name": "{0}.{1}".format(base_name, name),
+                "source": self.source,
+                "time": now,
+                "value": value
+            }
 
         if hasattr(metric, 'snapshot'):
             snapshot = metric.snapshot
             for name in snapshot_keys:
-                pass
+                value = getattr(snapshot, name)
+                yield type, {
+                    "name": "{0}.{1}".format(base_name, name),
+                    "source": self.source,
+                    "time": now,
+                    "value": value
+                }
