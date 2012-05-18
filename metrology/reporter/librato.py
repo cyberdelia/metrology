@@ -9,6 +9,20 @@ from metrology.reporter.base import Reporter
 
 
 class LibratoReporter(Reporter):
+    """
+    A librato metrics reporter that send metrics to librato ::
+
+        reporter = LibratoReporter("<email>", "<token>", source="front.local")
+        reporter.start()
+
+    :param email: your librato email
+    :param token: your librato api token
+    :param source: source of the metric
+    :param interval: time between each reporting
+    :param prefix: metrics name prefix
+    :param filters: allow given keys to be send
+    :param excludes: exclude given keys to be send
+    """
     def __init__(self, email, token, **options):
         self.email = email
         self.token = token
