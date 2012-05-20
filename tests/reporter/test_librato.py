@@ -1,14 +1,15 @@
 import requests
 import sys
+import pytest
 
 from mock import patch
-from unittest import TestCase, skipIf
+from unittest import TestCase
 
 from metrology import Metrology
 from metrology.reporter.librato import LibratoReporter
 
 
-@skipIf("java" in sys.version.lower(), "doesn't support jython")
+@pytest.mark.skipif('"java" in sys.version.lower()')
 class LibratoReporterTest(TestCase):
     def setUp(self):
         self.reporter = LibratoReporter("<email>", "<token>")
