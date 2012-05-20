@@ -1,0 +1,6 @@
+mock
+requests
+atomic
+bintrees
+pytest
+tox
