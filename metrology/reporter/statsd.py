@@ -15,7 +15,7 @@ class StatsdReporter(Reporter):
 
     @property
     def socket(self):
-        if not self._socket:
+        if not hasattr(self, '_socket'):
             self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         return self._socket
 
