@@ -10,7 +10,7 @@ with open('LICENSE') as f:
 
 setup(
     name='metrology',
-    version='0.4.1',
+    version='0.5',
     description='A library to easily measure what\'s going on in your python.',
     long_description=readme,
     author='Timothée Peignier',
@@ -20,7 +20,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        'astrolabe>=0.1.1',
+        'astrolabe>=0.1.2',
         'atomic>=0.3.2',
         'bintrees>=1.0.0'
     ],
