@@ -20,7 +20,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        'astrolabe>=0.1',
+        'astrolabe>=0.1.1',
         'atomic>=0.3.2',
         'bintrees>=1.0.0'
     ],
