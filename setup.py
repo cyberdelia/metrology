@@ -22,7 +22,8 @@ setup(
     install_requires=[
         'astrolabe>=0.1.2',
         'atomic>=0.3.2',
-        'bintrees>=1.0.0'
+        'bintrees>=1.0.0',
+        'statprof>=0.1.2'
     ],
     include_package_data=True,
     classifiers=[

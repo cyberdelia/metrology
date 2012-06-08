@@ -66,6 +66,15 @@ A specialized timer that calculates the percentage of wall-clock time that was s
     with utimer:
       do_something()
 
+Profilers
+---------
+
+A profiler measures the distribution of the duration passed in a every part of the code ::
+
+    profiler = Metrology.profiler('slow-code')
+    with profiler:
+        run_slow_code()
+
 
 Reporters
 =========

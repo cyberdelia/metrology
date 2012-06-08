@@ -4,4 +4,5 @@ atomic
 astrolabe
 bintrees
 pytest
+statprof
 tox

@@ -18,6 +18,7 @@ class GraphiteReporterTest(TestCase):
         Metrology.counter('counter').increment()
         Metrology.timer('timer').update(1.5)
         Metrology.utilization_timer('utimer').update(1.5)
+        Metrology.histogram('histogram').update(1.5)
 
     def tearDown(self):
         self.reporter.stop()
