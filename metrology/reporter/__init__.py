@@ -2,4 +2,3 @@
 from metrology.reporter.graphite import GraphiteReporter
 from metrology.reporter.librato import LibratoReporter
 from metrology.reporter.logger import LoggerReporter
-from metrology.reporter.statsd import StatsdReporter
