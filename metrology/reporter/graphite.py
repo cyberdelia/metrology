@@ -66,7 +66,7 @@ class GraphiteReporter(Reporter):
                     'count'
                 ])
             if isinstance(metric, Histogram):
-                sef.send_metric(name, 'histogram', metric, [
+                self.send_metric(name, 'histogram', metric, [
                     'count', 'min', 'max', 'mean', 'stddev',
                 ], [
                     'median', 'percentile_95th'
