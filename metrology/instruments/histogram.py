@@ -89,7 +89,7 @@ class Histogram(object):
     def stddev(self):
         """Returns the standard deviation."""
         if self.counter.value > 0:
-            return self.var.value
+            return self.variance
         return 0.0
 
     @property
