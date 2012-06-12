@@ -57,7 +57,7 @@ class LoggerReporter(Reporter):
                     'count'
                 ])
             if isinstance(metric, Histogram):
-                sef.log_metric(name, 'histogram', metric, [
+                self.log_metric(name, 'histogram', metric, [
                     'count', 'min', 'max', 'mean', 'stddev',
                 ], [
                     'median', 'percentile_95th'
