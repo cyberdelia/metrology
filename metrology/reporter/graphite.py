@@ -71,6 +71,14 @@ class GraphiteReporter(Reporter):
                 ], [
                     'median', 'percentile_95th'
                 ])
+            if isinstance(metric, Profiler):
+                for trace_name, trace_metric in metric.traces.items():
+                    trace_name = "{0}.{1}".format(name, trace_name)
+                    self.send_metric(trace_name, 'histogram', trace_metric, [
+                        'count', 'min', 'max', 'mean', 'stddev',
+                    ], [
+                        'median', 'percentile_95th'
+                    ])
 
     def send_metric(self, name, type, metric, keys, snapshot_keys=None):
         if snapshot_keys is None:

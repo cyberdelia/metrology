@@ -43,3 +43,11 @@ Health Checks
 
 .. automodule:: metrology.instruments.healthcheck
   :members:
+
+
+Profilers
+=========
+
+.. automodule:: metrology.instruments.profiler
+  :members:
+
