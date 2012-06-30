@@ -10,6 +10,7 @@ from metrology.instruments.histogram import HistogramExponentiallyDecaying
 
 __all__ = ['Profiler']
 
+
 class _Trace(object):
     def __init__(self, data):
         self_sample_count = data.self_sample_count
