@@ -1,3 +1,5 @@
+import pytest
+import sys
 import test.pystone
 
 from unittest import TestCase
@@ -5,6 +7,7 @@ from unittest import TestCase
 from metrology.instruments.profiler import Profiler
 
 
+@pytest.mark.skipif('sys.version_info[0] == 3')
 class ProfilerTest(TestCase):
     def setUp(self):
         self.profiler = Profiler()
