@@ -32,7 +32,7 @@ class Profiler(object):
             run_slow_code()
 
     .. warning::
-        This instrument does not yet work on Windows.
+        This instrument does not yet work on Windows, and it doesn't run on Python 3
 
     """
     def __init__(self, frequency=None, histogram=HistogramExponentiallyDecaying):
