@@ -1,5 +1,7 @@
 import math
 import random
+import sys
+
 from time import time
 
 from atomic import Atomic
@@ -89,7 +91,10 @@ class ExponentiallyDecayingSample(object):
         if not timestamp:
             timestamp = time()
         with self.lock:
-            priority = self.weight(timestamp - self.start_time) / random.random()
+            try:
+                priority = self.weight(timestamp - self.start_time) / random.random()
+            except OverflowError:
+                priority = sys.float_info.max
             new_count = self.counter.update(lambda v: v + 1)
 
             if math.isnan(priority):

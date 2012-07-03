@@ -1,7 +1,8 @@
 from threading import Thread
 from unittest import TestCase
 
-from metrology.instruments.histogram import HistogramUniform, HistogramExponentiallyDecaying
+from metrology.stats.sample import ExponentiallyDecayingSample
+from metrology.instruments.histogram import Histogram, HistogramUniform, HistogramExponentiallyDecaying
 
 
 class HistogramTest(TestCase):
@@ -114,3 +115,10 @@ class HistogramTest(TestCase):
             thread.join()
         snapshot = histogram.snapshot
         self.assertEqual(49.5, snapshot.median)
+
+    def test_sample_overflow_error(self):
+        sample = ExponentiallyDecayingSample(Histogram.DEFAULT_SAMPLE_SIZE, Histogram.DEFAULT_ALPHA)
+        sample.start_time = 946681200.0
+        histogram = Histogram(sample)
+        histogram.update(5)
+        self.assertEqual(5, histogram.min)
