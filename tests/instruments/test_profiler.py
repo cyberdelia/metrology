@@ -1,5 +1,4 @@
 import pytest
-import sys
 import test.pystone
 
 from unittest import TestCase

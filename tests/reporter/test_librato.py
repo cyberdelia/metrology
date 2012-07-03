@@ -1,6 +1,5 @@
 import pytest
 import requests
-import sys
 
 from mock import patch
 from unittest import TestCase
