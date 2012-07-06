@@ -86,7 +86,8 @@ class LibratoReporter(Reporter):
         }
         requests.post("https://metrics-api.librato.com/v1/metrics",
             data=dumps(metrics),
-            auth=(self.email, self.token))
+            auth=(self.email, self.token),
+            headers={'content-type': 'application/json'})
 
     def prepare_metric(self, name, type, metric, keys, snapshot_keys=[]):
         base_name = re.sub(r"\s+", "_", name)
