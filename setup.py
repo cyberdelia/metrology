@@ -7,10 +7,10 @@ with open('README.rst') as f:
 
 with open('LICENSE') as f:
     license = f.read()
-
+  
 setup(
     name='metrology',
-    version='0.6.1',
+    version='0.6.2',
     description='A library to easily measure what\'s going on in your python.',
     long_description=readme,
     author='Timothée Peignier',
@@ -22,8 +22,7 @@ setup(
     install_requires=[
         'astrolabe>=0.1.2',
         'atomic>=0.3.2',
-        'bintrees>=1.0.0',
-        'statprof>=0.1.2'
+        'bintrees>=1.0.0'
     ],
     include_package_data=True,
     classifiers=[
