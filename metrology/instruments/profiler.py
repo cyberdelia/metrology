@@ -1,7 +1,5 @@
 from __future__ import division
 
-import statprof
-
 from os.path import basename
 from collections import defaultdict
 
@@ -13,6 +11,7 @@ __all__ = ['Profiler']
 
 class _Trace(object):
     def __init__(self, data):
+        import statprof
         self_sample_count = data.self_sample_count
         cum_sample_count = data.cum_sample_count
         sample_count = statprof.state.sample_count
@@ -44,6 +43,7 @@ class Profiler(object):
         self.histogram.clear()
 
     def __enter__(self):
+        import statprof
         try:
             statprof.reset(self.frequency)
         except AssertionError:
@@ -57,6 +57,7 @@ class Profiler(object):
             self.traces[key].update(duration)
 
     def __exit__(self, type, value, callback):
+        import statprof
         statprof.stop()
         for call in statprof.CallData.all_calls.itervalues():
             trace = _Trace(call)
