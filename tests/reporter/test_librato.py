@@ -1,7 +1,11 @@
 import pytest
 import requests
 
-from mock import patch
+try:
+    from mock import patch
+except ImportError:
+    from unittest.mock import patch  # noqa
+
 from unittest import TestCase
 
 from metrology import Metrology

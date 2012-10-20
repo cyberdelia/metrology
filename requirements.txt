@@ -1,8 +1,8 @@
-mock
-requests
-atomic
 astrolabe
+atomic
 bintrees
+mock
 pytest
+requests
 statprof
 tox

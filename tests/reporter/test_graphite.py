@@ -1,9 +1,10 @@
 try:
     from StringIO import StringIO
+    from mock import patch
 except ImportError:
     from io import StringIO  # noqa
+    from unittest.mock import patch  # noqa
 
-from mock import patch
 from unittest import TestCase
 
 from metrology import Metrology
@@ -28,4 +29,4 @@ class GraphiteReporterTest(TestCase):
     def test_send(self, mock):
         self.reporter.write()
         self.assertTrue(mock.send.assert_called())
-        self.assertTrue("utimer.count 1" in mock.send.call_args_list[0][0][0])
+        self.assertEqual(50, len(mock.send.call_args_list))
