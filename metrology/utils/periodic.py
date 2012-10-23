@@ -7,6 +7,7 @@ class PeriodicTask(Thread):
         self.status = Event()
         self.interval = interval
         self.target = target
+        self.daemon = True
 
     def stop(self):
         self.status.set()
