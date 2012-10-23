@@ -11,6 +11,10 @@ class Metrology(object):
         return registry.counter(name)
 
     @classmethod
+    def derive(cls, name):
+        return registry.derive(name)
+
+    @classmethod
     def meter(cls, name):
         return registry.meter(name)
 

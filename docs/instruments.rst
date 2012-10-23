@@ -17,6 +17,13 @@ Counters
 .. automodule:: metrology.instruments.counter
     :members:
 
+Derive
+======
+
+.. automodule:: metrology.instruments.derive
+  :members:
+
+
 Meters
 ======
 
