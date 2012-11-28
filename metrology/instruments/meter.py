@@ -1,9 +1,17 @@
+from functools import wraps
 from time import time
 
 from atomic import Atomic
 
 from metrology.stats import EWMA
-from metrology.utils.periodic import PeriodicTask
+
+
+def ticker(method):
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        self._tick()
+        return method(self, *args, **kwargs)
+    return wrapper
 
 
 class Meter(object):
@@ -18,14 +26,20 @@ class Meter(object):
     def __init__(self, average_class=EWMA):
         self.counter = Atomic(0)
         self.start_time = time()
+        self.last_tick = Atomic(self.start_time)
 
+        self.interval = EWMA.INTERVAL
         self.m1_rate = EWMA.m1()
         self.m5_rate = EWMA.m5()
         self.m15_rate = EWMA.m15()
 
-        self.task = PeriodicTask(interval=average_class.INTERVAL,
-            target=self.tick)
-        self.task.start()
+    def _tick(self):
+        old_tick, new_tick = self.last_tick.value, time()
+        age = new_tick - old_tick
+        if age > self.interval and self.last_tick.compare_and_swap(old_tick, new_tick):
+            ticks = age / self.interval
+            for _ in range(ticks):
+                self.tick()
 
     @property
     def count(self):
@@ -40,6 +54,7 @@ class Meter(object):
         self.m5_rate.clear()
         self.m15_rate.clear()
 
+    @ticker
     def mark(self, value=1):
         """Record an event with the meter. By default it will record one event.
 
@@ -56,16 +71,19 @@ class Meter(object):
         self.m15_rate.tick()
 
     @property
+    @ticker
     def one_minute_rate(self):
         """Returns the one-minute average rate."""
         return self.m1_rate.rate
 
     @property
+    @ticker
     def five_minute_rate(self):
         """Returns the five-minute average rate."""
         return self.m5_rate.rate
 
     @property
+    @ticker
     def fifteen_minute_rate(self):
         """Returns the fifteen-minute average rate."""
         return self.m15_rate.rate
@@ -80,4 +98,4 @@ class Meter(object):
             return self.counter.value / elapsed
 
     def stop(self):
-        self.task.stop()
+        pass
