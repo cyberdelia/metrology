@@ -17,7 +17,7 @@ class _Trace(object):
         sample_count = statprof.state.sample_count
         secs_per_sample = statprof.state.accumulated_time / sample_count
         self.name = "{0}.{1}.{2}".format(basename(data.key.filename),
-            data.key.name, data.key.lineno)
+                                         data.key.name, data.key.lineno)
         self.percent = self_sample_count / sample_count * 100
         self.cumulative = cum_sample_count * secs_per_sample
         self.self = self_sample_count * secs_per_sample
