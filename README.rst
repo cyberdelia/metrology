@@ -19,7 +19,9 @@ API
 Gauge
 -----
 
-A gauge is an instantaneous measurement of a value ::
+A gauge is an instantaneous measurement of a value
+
+.. code-block:: python
 
     class JobGauge(metrology.instruments.Gauge):
         def value(self):
@@ -30,7 +32,9 @@ A gauge is an instantaneous measurement of a value ::
 Counters
 --------
 
-A counter is like a gauge, but you can increment or decrement its value ::
+A counter is like a gauge, but you can increment or decrement its value
+
+.. code-block:: python
 
     counter = Metrology.counter('pending-jobs')
     counter.increment()
@@ -41,7 +45,9 @@ Meters
 ------
 
 A meter measures the rate of events over time (e.g., "requests per second").
-In addition to the mean rate, you can also track 1, 5 and 15 minutes moving averages ::
+In addition to the mean rate, you can also track 1, 5 and 15 minutes moving averages
+
+.. code-block:: python
 
     meter = Metrology.meter('requests')
     meter.mark()
@@ -50,7 +56,9 @@ In addition to the mean rate, you can also track 1, 5 and 15 minutes moving aver
 Timers
 ------
 
-A timer measures both the rate that a particular piece of code is called and the distribution of its duration ::
+A timer measures both the rate that a particular piece of code is called and the distribution of its duration
+
+.. code-block:: python
 
     timer = Metrology.timer('responses')
     with timer:
@@ -60,8 +68,10 @@ A timer measures both the rate that a particular piece of code is called and the
 Utilization Timer
 -----------------
 
-A specialized timer that calculates the percentage of wall-clock time that was spent ::
+A specialized timer that calculates the percentage of wall-clock time that was spent
     
+.. code-block:: python
+
     utimer = Metrology.utilization_timer('responses')
     with utimer:
       do_something()
@@ -69,7 +79,9 @@ A specialized timer that calculates the percentage of wall-clock time that was s
 Profilers
 ---------
 
-A profiler measures the distribution of the duration passed in a every part of the code ::
+A profiler measures the distribution of the duration passed in a every part of the code
+
+.. code-block:: python
 
     profiler = Metrology.profiler('slow-code')
     with profiler:
@@ -82,7 +94,9 @@ Reporters
 Logger Reporter
 ---------------
 
-A logging reporter that write metrics to a logger ::
+A logging reporter that write metrics to a logger
+
+.. code-block:: python
 
     reporter = LoggerReporter(level=logging.INFO, interval=10)
     reporter.start()
@@ -91,7 +105,9 @@ A logging reporter that write metrics to a logger ::
 Graphite Reporter
 -----------------
 
-A graphite reporter that send metrics to graphite ::
+A graphite reporter that send metrics to graphite
+
+.. code-block:: python
     
     reporter = GraphiteReporter('graphite.local', 2003)
     reporter.start()
@@ -100,7 +116,9 @@ A graphite reporter that send metrics to graphite ::
 Librato Reporter
 ----------------
 
-A librator metric reporter that send metrics to librato API ::
+A librator metric reporter that send metrics to librato API
+
+.. code-block:: python
 
     reporter = LibratoReporter("<email>", "<token>")
     reporter.start()
