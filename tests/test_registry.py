@@ -41,4 +41,5 @@ class RegistryTest(TestCase):
         self.assertTrue(self.registry.histogram('test') is not None)
 
     def test_health_check(self):
-        self.assertTrue(self.registry.health_check('test', DummyHealthCheck()) is not None)
+        health = self.registry.health_check('test', DummyHealthCheck())
+        self.assertTrue(health is not None)

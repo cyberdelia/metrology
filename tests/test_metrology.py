@@ -36,4 +36,5 @@ class MetrologyTest(TestCase):
         self.assertTrue(Metrology.histogram('test') is not None)
 
     def test_health_check(self):
-        self.assertTrue(Metrology.health_check('test', HealthCheck) is not None)
+        health = Metrology.health_check('test', HealthCheck)
+        self.assertTrue(health is not None)

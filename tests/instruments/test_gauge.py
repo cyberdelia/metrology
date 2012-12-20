@@ -2,7 +2,8 @@ import math
 
 from unittest import TestCase
 
-from metrology.instruments.gauge import Gauge, RatioGauge, PercentGauge, ToggleGauge
+from metrology.instruments.gauge import Gauge, RatioGauge, PercentGauge, \
+    ToggleGauge
 
 
 class DummyGauge(Gauge):
