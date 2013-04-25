@@ -13,20 +13,35 @@ from metrology.reporter.graphite import GraphiteReporter
 
 class GraphiteReporterTest(TestCase):
     def setUp(self):
-        self.reporter = GraphiteReporter('localhost', 3333)
+        pass
+
+    def tearDown(self):
+        Metrology.stop()
+
+    @patch.object(GraphiteReporter, 'socket')
+    def test_send_nobatch(self, mock):
+        self.reporter = GraphiteReporter('localhost', 3333, batch_size=1)
 
         Metrology.meter('meter').mark()
         Metrology.counter('counter').increment()
         Metrology.timer('timer').update(1.5)
         Metrology.utilization_timer('utimer').update(1.5)
         Metrology.histogram('histogram').update(1.5)
-
-    def tearDown(self):
-        self.reporter.stop()
-        Metrology.stop()
-
-    @patch.object(GraphiteReporter, 'socket')
-    def test_send(self, mock):
         self.reporter.write()
         self.assertTrue(mock.send.assert_called())
-        self.assertEqual(50, len(mock.send.call_args_list))
+        self.assertEqual(50, len(mock.sendAll.call_args_list))
+        self.reporter.stop()
+
+    @patch.object(GraphiteReporter, 'socket')
+    def test_send_batch(self, mock):
+        self.reporter = GraphiteReporter('localhost', 3333, batch_size=2)
+
+        Metrology.meter('meter').mark()
+        Metrology.counter('counter').increment()
+        Metrology.timer('timer').update(1.5)
+        Metrology.utilization_timer('utimer').update(1.5)
+        Metrology.histogram('histogram').update(1.5)
+        self.reporter.write()
+        self.assertTrue(mock.send.assert_called())
+        self.assertEqual(25, len(mock.sendAll.call_args_list))
+        self.reporter.stop()
