@@ -37,7 +37,7 @@ class Meter(object):
         old_tick, new_tick = self.last_tick.value, time()
         age = new_tick - old_tick
         if age > self.interval and self.last_tick.compare_and_swap(old_tick, new_tick):
-            ticks = age / self.interval
+            ticks = int(age / self.interval)
             for _ in range(ticks):
                 self.tick()
 
