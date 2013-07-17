@@ -1,4 +1,3 @@
-import pytest
 import requests
 
 try:
@@ -12,7 +11,6 @@ from metrology import Metrology
 from metrology.reporter.librato import LibratoReporter
 
 
-@pytest.mark.skipif('"java" in sys.version.lower()')
 class LibratoReporterTest(TestCase):
     def setUp(self):
         self.reporter = LibratoReporter("<email>", "<token>")

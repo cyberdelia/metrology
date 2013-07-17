@@ -21,9 +21,3 @@ Librato
 
 .. automodule:: metrology.reporter.librato
     :members:
-
-Statsd
-======
-
-.. automodule:: metrology.reporter.statsd
-    :members:

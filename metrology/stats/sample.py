@@ -1,3 +1,4 @@
+import heapq
 import math
 import random
 import sys
@@ -5,9 +6,7 @@ import sys
 from time import time
 
 from atomic import Atomic
-from bintrees.rbtree import RBTree
 from threading import RLock
-
 from metrology.stats.snapshot import Snapshot
 
 
@@ -44,68 +43,70 @@ class UniformSample(object):
 
 
 class ExponentiallyDecayingSample(object):
-    RESCALE_THRESHOLD = 60 * 60
-
     def __init__(self, reservoir_size, alpha):
-        self.values = RBTree()
-        self.counter = Atomic(0)
+        self.values = []
         self.next_scale_time = Atomic(0)
         self.alpha = alpha
         self.reservoir_size = reservoir_size
         self.lock = RLock()
+        self.rescale_threshold = ExponentiallyDecayingSample.calculate_rescale_threshold(alpha)
         self.clear()
+
+    @staticmethod
+    def calculate_rescale_threshold(alpha):
+        # determine rescale-threshold such that we will not overflow exp() in
+        # weight function, and subsequently not overflow into inf on dividing
+        # by random.random()
+        min_rand = 1.0 / (2 ** 32)  # minimum non-zero value from random()
+        safety = 2.0                # safety pad for numerical inaccuracy
+        max_value = sys.float_info.max * min_rand / safety
+        return math.log(max_value) / alpha
 
     def clear(self):
         with self.lock:
-            self.values.clear()
-            self.counter.value = 0
-            self.next_scale_time.value = time() + self.RESCALE_THRESHOLD
+            self.values = []
             self.start_time = time()
+            self.next_scale_time.value = self.start_time + self.rescale_threshold
 
     def size(self):
-        count = self.counter.value
-        if count < self.reservoir_size:
-            return count
-        return self.reservoir_size
+        with self.lock:
+            return len(self.values)
 
     def __len__(self):
         return self.size()
 
     def snapshot(self):
         with self.lock:
-            return Snapshot(list(self.values.values()))
+            return Snapshot(val for _, val in self.values)
 
     def weight(self, timestamp):
-        return math.exp(self.alpha * timestamp)
+        return math.exp(self.alpha * (timestamp - self.start_time))
 
     def rescale(self, now, next_time):
-        if self.next_scale_time.compare_and_swap(next_time, now + self.RESCALE_THRESHOLD):
+        if self.next_scale_time.compare_and_swap(next_time, now + self.rescale_threshold):
             with self.lock:
-                old_start_time = self.start_time
-                self.start_time = time()
-                for key in list(self.values.keys()):
-                    value = self.values.remove(key)
-                self.values[key * math.exp(-self.alpha * (self.start_time - old_start_time))] = value
+                rescaleFactor = math.exp(-self.alpha * (now - self.start_time))
+                self.values = [(k * rescaleFactor, v) for k, v in self.values]
+                self.start_time = now
+
+    def rescale_if_necessary(self):
+        now = time()
+        next_time = self.next_scale_time.get_value()
+        if now > next_time:
+            self.rescale(now, next_time)
 
     def update(self, value, timestamp=None):
-        if not timestamp:
+        if timestamp is None:
             timestamp = time()
+
+        self.rescale_if_necessary()
         with self.lock:
             try:
-                priority = self.weight(timestamp - self.start_time) / random.random()
-            except OverflowError:
+                priority = self.weight(timestamp) / random.random()
+            except (OverflowError, ZeroDivisionError):
                 priority = sys.float_info.max
-            new_count = self.counter.update(lambda v: v + 1)
 
-            if math.isnan(priority):
-                return
-
-            if new_count <= self.reservoir_size:
-                self.values[priority] = value
+            if len(self.values) < self.reservoir_size:
+                heapq.heappush(self.values, (priority, value))
             else:
-                first_priority = self.values.root.key
-                if first_priority < priority:
-                    if priority in self.values:
-                        self.values[priority] = value
-                        if not self.values.remove(first_priority):
-                            first_priority = self.values.root()
+                heapq.heappushpop(self.values, (priority, value))

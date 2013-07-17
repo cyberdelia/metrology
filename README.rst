@@ -69,7 +69,7 @@ Utilization Timer
 -----------------
 
 A specialized timer that calculates the percentage of wall-clock time that was spent
-    
+
 .. code-block:: python
 
     utimer = Metrology.utilization_timer('responses')
@@ -108,7 +108,7 @@ Graphite Reporter
 A graphite reporter that send metrics to graphite
 
 .. code-block:: python
-    
+
     reporter = GraphiteReporter('graphite.local', 2003)
     reporter.start()
 
