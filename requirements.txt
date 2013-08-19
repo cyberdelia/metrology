@@ -1,6 +1,5 @@
 astrolabe
 atomic
-bintrees
 mock
 pytest
 requests

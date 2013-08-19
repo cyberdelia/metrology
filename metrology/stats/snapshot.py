@@ -12,8 +12,7 @@ class Snapshot(object):
     P999_Q = 0.999
 
     def __init__(self, values):
-        values.sort()
-        self.values = values
+        self.values = sorted(values)
 
     def value(self, quantile):
         if 0.0 > quantile > 1.0:
