@@ -21,3 +21,9 @@ Librato
 
 .. automodule:: metrology.reporter.librato
     :members:
+
+Ganglia
+=======
+
+.. automodule:: metrology.reporter.ganglia
+    :members:
