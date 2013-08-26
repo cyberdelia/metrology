@@ -124,6 +124,17 @@ A librator metric reporter that send metrics to librato API
     reporter.start()
 
 
+Ganglia Reporter
+----------------
+
+A ganglia reporter that sends metrics to gmond.
+
+.. code-block:: python
+
+    reporter = GangliaReporter("Group Name", "localhost", 8649, "udp", interval=60)
+    reporter.start()
+
+
 Acknowledgement
 ===============
 
