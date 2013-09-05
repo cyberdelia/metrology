@@ -10,6 +10,7 @@ class Gauge(object):
     A gauge is an instantaneous measurement of a value ::
 
       class JobGauge(metrology.instruments.Gauge):
+          @property
           def value(self):
               return len(queue)
 
