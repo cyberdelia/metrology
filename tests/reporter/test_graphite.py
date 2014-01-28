@@ -29,7 +29,7 @@ class GraphiteReporterTest(TestCase):
         Metrology.histogram('histogram').update(1.5)
         self.reporter.write()
         self.assertTrue(mock.send.assert_called())
-        self.assertEqual(50, len(mock.sendAll.call_args_list))
+        self.assertEqual(50, len(mock.sendall.call_args_list))
         self.reporter.stop()
 
     @patch.object(GraphiteReporter, 'socket')
@@ -43,5 +43,5 @@ class GraphiteReporterTest(TestCase):
         Metrology.histogram('histogram').update(1.5)
         self.reporter.write()
         self.assertTrue(mock.send.assert_called())
-        self.assertEqual(25, len(mock.sendAll.call_args_list))
+        self.assertEqual(25, len(mock.sendall.call_args_list))
         self.reporter.stop()

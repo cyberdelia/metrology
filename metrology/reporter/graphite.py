@@ -134,7 +134,7 @@ class GraphiteReporter(Reporter):
 
     def _send_plaintext(self):
         if len(self.batch_buffer):
-            self.socket.sendAll(self.batch_buffer + "\n")
+            self.socket.sendall(self.batch_buffer + "\n")
             # Reinitialze buffer and counter
             self.batch_count = 0
             self.batch_buffer = ""
@@ -144,7 +144,7 @@ class GraphiteReporter(Reporter):
             payload = pickle.dumps(self.batch_buffer)
             header = struct.pack("!L", len(payload))
             message = header + payload
-            self.socket.sendAll(message)
+            self.socket.sendall(message)
             # Reinitialze buffer and counter
             self.batch_count = 0
             self.batch_buffer = []
