@@ -1,5 +1,7 @@
 language: python
-python:
-  - 2.7
+env:
+  - TOXENV=py27
+  - TOXENV=pypy
+  - TOXENV=py33
 install: pip install -q --use-mirrors tox
-script: tox -e py27,py33,pypy
+script: tox
