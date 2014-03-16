@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
+import io
+
 from setuptools import setup, find_packages
 
 
-with open('README.rst') as f:
+with io.open('README.rst', encoding='utf-8') as f:
     readme = f.read()
 
-with open('LICENSE') as f:
+with io.open('LICENSE', encoding='utf-8') as f:
     license = f.read()
 
 setup(
     name='metrology',
-    version='0.9.1',
+    version='0.10.0',
     description='A library to easily measure what\'s going on in your python.',
     long_description=readme,
     author='Timothée Peignier',
