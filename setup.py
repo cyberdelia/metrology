@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import io
-
 from setuptools import setup, find_packages
 
 
-with io.open('README.rst', encoding='utf-8') as f:
+with open('README.rst') as f:
     readme = f.read()
 
-with io.open('LICENSE', encoding='utf-8') as f:
+with open('LICENSE') as f:
     license = f.read()
 
 setup(
