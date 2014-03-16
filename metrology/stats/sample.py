@@ -3,16 +3,17 @@ import math
 import random
 import sys
 
-from time import time
-
-from atomic import Atomic
 from threading import RLock
+
+from atomic import AtomicLong
+
 from metrology.stats.snapshot import Snapshot
+from metrology.utils import now
 
 
 class UniformSample(object):
     def __init__(self, reservoir_size):
-        self.counter = Atomic(0)
+        self.counter = AtomicLong(0)
         self.values = [0] * reservoir_size
 
     def clear(self):
@@ -32,7 +33,8 @@ class UniformSample(object):
         return Snapshot(self.values[0:self.size()])
 
     def update(self, value):
-        new_count = self.counter.update(lambda v: v + 1)
+        self.counter += 1
+        new_count = self.counter.value
 
         if new_count <= len(self.values):
             self.values[new_count - 1] = value
@@ -45,7 +47,7 @@ class UniformSample(object):
 class ExponentiallyDecayingSample(object):
     def __init__(self, reservoir_size, alpha):
         self.values = []
-        self.next_scale_time = Atomic(0)
+        self.next_scale_time = AtomicLong(0)
         self.alpha = alpha
         self.reservoir_size = reservoir_size
         self.lock = RLock()
@@ -60,12 +62,12 @@ class ExponentiallyDecayingSample(object):
         min_rand = 1.0 / (2 ** 32)  # minimum non-zero value from random()
         safety = 2.0                # safety pad for numerical inaccuracy
         max_value = sys.float_info.max * min_rand / safety
-        return math.log(max_value) / alpha
+        return int(math.log(max_value) / alpha)
 
     def clear(self):
         with self.lock:
             self.values = []
-            self.start_time = time()
+            self.start_time = now()
             self.next_scale_time.value = self.start_time + self.rescale_threshold
 
     def size(self):
@@ -90,14 +92,14 @@ class ExponentiallyDecayingSample(object):
                 self.start_time = now
 
     def rescale_if_necessary(self):
-        now = time()
-        next_time = self.next_scale_time.get_value()
-        if now > next_time:
-            self.rescale(now, next_time)
+        time = now()
+        next_time = self.next_scale_time.value
+        if time > next_time:
+            self.rescale(time, next_time)
 
     def update(self, value, timestamp=None):
         if timestamp is None:
-            timestamp = time()
+            timestamp = now()
 
         self.rescale_if_necessary()
         with self.lock:

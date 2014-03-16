@@ -16,8 +16,8 @@ class TimerTest(TestCase):
         for i in range(3):
             with self.timer:
                 time.sleep(0.1)
-        self.assertAlmostEqual(0.1, self.timer.mean, 1)
-        self.assertAlmostEqual(0.1, self.timer.snapshot.median, 1)
+        self.assertAlmostEqual(100, self.timer.mean, delta=10)
+        self.assertAlmostEqual(100, self.timer.snapshot.median, delta=10)
 
 
 class UtilizationTimerTest(TestCase):
@@ -29,9 +29,9 @@ class UtilizationTimerTest(TestCase):
 
     def test_timer(self):
         for i in range(5):
-            self.timer.update(0.10)
-            self.timer.update(0.15)
+            self.timer.update(100)
+            self.timer.update(150)
         self.timer.meter.tick()
         self.timer.duration_meter.tick()
 
-        self.assertAlmostEqual(0.25, self.timer.one_minute_utilization, 1)
+        self.assertAlmostEqual(250, self.timer.one_minute_utilization, delta=10)

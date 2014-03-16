@@ -1,4 +1,4 @@
-from atomic import Atomic
+from atomic import AtomicLong
 
 from metrology.instruments.meter import Meter
 from metrology.stats import EWMA
@@ -14,7 +14,7 @@ class Derive(Meter):
 
     """
     def __init__(self, average_class=EWMA):
-        self.last = Atomic(0)
+        self.last = AtomicLong(0)
         super(Derive, self).__init__(average_class)
 
     def mark(self, value=1):

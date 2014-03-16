@@ -1,9 +1,10 @@
 from functools import wraps
 from time import time
 
-from atomic import Atomic
+from atomic import AtomicLong
 
 from metrology.stats import EWMA
+from metrology.utils import now
 
 
 def ticker(method):
@@ -24,9 +25,9 @@ class Meter(object):
 
     """
     def __init__(self, average_class=EWMA):
-        self.counter = Atomic(0)
-        self.start_time = time()
-        self.last_tick = Atomic(self.start_time)
+        self.counter = AtomicLong(0)
+        self.start_time = now()
+        self.last_tick = AtomicLong(self.start_time)
 
         self.interval = EWMA.INTERVAL
         self.m1_rate = EWMA.m1()
@@ -61,7 +62,7 @@ class Meter(object):
 
         :param value: number of event to record
         """
-        self.counter.update(lambda v: v + value)
+        self.counter += value
         self.m1_rate.update(value)
         self.m5_rate.update(value)
         self.m15_rate.update(value)

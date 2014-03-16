@@ -20,8 +20,8 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        'astrolabe>=0.2, <0.4',
-        'atomic>=0.5, <0.7',
+        'astrolabe>=0.4.0',
+        'atomic>=0.7.0',
     ],
     include_package_data=True,
     classifiers=[

@@ -2,10 +2,10 @@ import re
 import socket
 import pickle
 import struct
-from time import time
 
 from metrology.instruments import *  # noqa
 from metrology.reporter.base import Reporter
+from metrology.utils import now
 
 
 class GraphiteReporter(Reporter):
@@ -86,14 +86,6 @@ class GraphiteReporter(Reporter):
                 ], [
                     'median', 'percentile_95th'
                 ])
-            if isinstance(metric, Profiler):
-                for trace_name, trace_metric in metric.traces.items():
-                    trace_name = "{0}.{1}".format(name, trace_name)
-                    self.send_metric(trace_name, 'histogram', trace_metric, [
-                        'count', 'min', 'max', 'mean', 'stddev',
-                    ], [
-                        'median', 'percentile_95th'
-                    ])
 
         # Send metrics that might be in buffers
         self._send()
@@ -108,19 +100,19 @@ class GraphiteReporter(Reporter):
         for name in keys:
             value = True
             value = getattr(metric, name)
-            self._buffered_send_metric(base_name, name, value, int(time()))
+            self._buffered_send_metric(base_name, name, value, now())
 
         if hasattr(metric, 'snapshot'):
             snapshot = metric.snapshot
             for name in snapshot_keys:
                 value = True
                 value = getattr(snapshot, name)
-                self._buffered_send_metric(base_name, name, value, int(time()))
+                self._buffered_send_metric(base_name, name, value, now())
 
     def _buffered_plaintext_send_metric(self, base_name, name, value, t, force=False):
         self.batch_count += 1
         self.batch_buffer += "{0}.{1} {2} {3}\n".format(
-            base_name, name, value, int(time()))
+            base_name, name, value, now())
         # Check if we reach batch size and send
         if self.batch_count >= self.batch_size:
             self._send_plaintext()

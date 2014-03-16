@@ -1,6 +1,6 @@
 import math
 
-from atomic import Atomic
+from atomic import AtomicLong
 
 
 class EWMA(object):
@@ -33,7 +33,7 @@ class EWMA(object):
 
         self.initialized = False
         self._rate = 0.0
-        self._uncounted = Atomic(0)
+        self._uncounted = AtomicLong(0)
 
     def clear(self):
         self.initialized = False
@@ -41,7 +41,7 @@ class EWMA(object):
         self._uncounted.value = 0
 
     def update(self, value):
-        self._uncounted.update(lambda v: v + value)
+        self._uncounted += value
 
     def tick(self):
         count = self._uncounted.swap(0)

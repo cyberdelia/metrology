@@ -3,7 +3,7 @@ import inspect
 from threading import RLock
 
 from metrology.exceptions import RegistryException
-from metrology.instruments import Counter, Derive, Profiler, Meter, Timer, UtilizationTimer, HistogramUniform
+from metrology.instruments import Counter, Derive, Meter, Timer, UtilizationTimer, HistogramUniform
 
 
 class Registry(object):
@@ -43,9 +43,6 @@ class Registry(object):
 
     def derive(self, name):
         return self.add_or_get(name, Derive)
-
-    def profiler(self, name):
-        return self.add_or_get(name, Profiler)
 
     def get(self, name):
         with self.lock:

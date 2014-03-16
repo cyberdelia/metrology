@@ -2,7 +2,7 @@ from __future__ import division
 
 import math
 
-from atomic import Atomic
+from atomic import AtomicLong
 
 
 class Gauge(object):
@@ -48,7 +48,7 @@ class PercentGauge(RatioGauge):
 
 
 class ToggleGauge(Gauge):
-    _value = Atomic(1)
+    _value = AtomicLong(1)
 
     @property
     def value(self):

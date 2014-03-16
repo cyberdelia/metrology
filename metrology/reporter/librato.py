@@ -1,11 +1,11 @@
 import re
 
 from json import dumps
-from time import time
 
 from metrology.exceptions import ReporterException
 from metrology.instruments import *  # noqa
 from metrology.reporter.base import Reporter
+from metrology.utils import now
 
 
 class LibratoReporter(Reporter):
@@ -94,7 +94,7 @@ class LibratoReporter(Reporter):
         if self.prefix:
             base_name = "{0}.{1}".format(self.prefix, base_name)
 
-        now = int(time())
+        time = now()
         type = "gauge" if type != "counter" else "counter"
 
         if self.filters:
@@ -110,7 +110,7 @@ class LibratoReporter(Reporter):
             yield type, {
                 "name": "{0}.{1}".format(base_name, name),
                 "source": self.source,
-                "time": now,
+                "time": time,
                 "value": value
             }
 
@@ -121,6 +121,6 @@ class LibratoReporter(Reporter):
                 yield type, {
                     "name": "{0}.{1}".format(base_name, name),
                     "source": self.source,
-                    "time": now,
+                    "time": time,
                     "value": value
                 }

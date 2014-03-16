@@ -20,8 +20,8 @@ class LoggerReporterTest(TestCase):
 
         Metrology.meter('meter').mark()
         Metrology.counter('counter').increment()
-        Metrology.timer('timer').update(1.5)
-        Metrology.utilization_timer('utimer').update(1.5)
+        Metrology.timer('timer').update(5)
+        Metrology.utilization_timer('utimer').update(5)
 
     def tearDown(self):
         self.reporter.stop()

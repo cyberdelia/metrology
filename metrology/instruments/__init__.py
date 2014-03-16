@@ -4,5 +4,4 @@ from metrology.instruments.derive import Derive
 from metrology.instruments.gauge import Gauge
 from metrology.instruments.histogram import Histogram, HistogramUniform, HistogramExponentiallyDecaying
 from metrology.instruments.meter import Meter
-from metrology.instruments.profiler import Profiler
 from metrology.instruments.timer import Timer, UtilizationTimer

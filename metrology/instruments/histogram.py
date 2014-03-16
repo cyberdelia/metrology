@@ -1,6 +1,8 @@
 from __future__ import division
 
-from atomic import Atomic
+import sys
+
+from atomic import AtomicLong, AtomicLongArray
 
 from metrology.stats.sample import UniformSample, ExponentiallyDecayingSample
 
@@ -19,11 +21,11 @@ class Histogram(object):
 
     def __init__(self, sample):
         self.sample = sample
-        self.counter = Atomic(0)
-        self.minimum = Atomic()
-        self.maximum = Atomic()
-        self.sum = Atomic(0)
-        self.var = Atomic([-1, 0])
+        self.counter = AtomicLong(0)
+        self.minimum = AtomicLong(sys.maxsize)
+        self.maximum = AtomicLong(-sys.maxsize - 1)
+        self.sum = AtomicLong(0)
+        self.var = AtomicLongArray([-1, 0])
 
     def clear(self):
         self.sample.clear()
@@ -34,11 +36,11 @@ class Histogram(object):
         self.var.value = [-1, 0]
 
     def update(self, value):
-        self.counter.update(lambda v: v + 1)
+        self.counter += 1
         self.sample.update(value)
         self.max = value
         self.min = value
-        self.sum.update(lambda v: v + value)
+        self.sum += value
         self.update_variance(value)
 
     @property
@@ -112,7 +114,7 @@ class Histogram(object):
 
                 new_values = (new_m, new_s)
             return new_values
-        self.var.update(variance)
+        self.var.value = variance(self.var.value)
 
 
 class HistogramUniform(Histogram):

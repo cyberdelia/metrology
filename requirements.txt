@@ -3,5 +3,5 @@ atomic
 mock
 pytest
 requests
-statprof
 tox
+ganglia

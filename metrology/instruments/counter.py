@@ -1,4 +1,4 @@
-from atomic import Atomic
+from atomic import AtomicLong
 
 
 class Counter(object):
@@ -12,21 +12,21 @@ class Counter(object):
 
     """
     def __init__(self):
-        self._count = Atomic(0)
+        self._count = AtomicLong(0)
 
     def increment(self, value=1):
         """Increment the counter. By default it will increment by 1.
 
         :param value: value to increment the counter.
         """
-        self._count.update(lambda v: v + value)
+        self._count += value
 
     def decrement(self, value=1):
         """Decrement the counter. By default it will decrement by 1.
 
         :param value: value to decrement the counter.
         """
-        self._count.update(lambda v: v - value)
+        self._count -= value
 
     def clear(self):
         self._count.value = 0
