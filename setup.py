@@ -10,7 +10,7 @@ with open('LICENSE') as f:
 
 setup(
     name='metrology',
-    version='0.10.0',
+    version='0.10.1',
     description='A library to easily measure what\'s going on in your python.',
     long_description=readme,
     author='Timothée Peignier',
