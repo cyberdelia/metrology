@@ -27,4 +27,4 @@ class GangliaReporterTest(TestCase):
     @patch.object(GMetric, "send")
     def test_write(self, mock):
         self.reporter.write()
-        self.assertTrue(mock.send.assert_called())
+        self.assertTrue(mock.called)

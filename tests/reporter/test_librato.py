@@ -27,6 +27,6 @@ class LibratoReporterTest(TestCase):
     @patch.object(requests, "post")
     def test_write(self, mock):
         self.reporter.write()
-        self.assertTrue(mock.send.assert_called())
+        self.assertTrue(mock.called)
         self.assertTrue("gauges" in mock.call_args_list[0][1]['data'])
         self.assertTrue("counters" in mock.call_args_list[0][1]['data'])

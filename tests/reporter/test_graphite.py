@@ -12,9 +12,6 @@ from metrology.reporter.graphite import GraphiteReporter
 
 
 class GraphiteReporterTest(TestCase):
-    def setUp(self):
-        pass
-
     def tearDown(self):
         Metrology.stop()
 
@@ -28,7 +25,7 @@ class GraphiteReporterTest(TestCase):
         Metrology.utilization_timer('utimer').update(5)
         Metrology.histogram('histogram').update(5)
         self.reporter.write()
-        self.assertTrue(mock.send.assert_called())
+        self.assertTrue(mock.sendall.called)
         self.assertEqual(50, len(mock.sendall.call_args_list))
         self.reporter.stop()
 
@@ -42,6 +39,6 @@ class GraphiteReporterTest(TestCase):
         Metrology.utilization_timer('utimer').update(5)
         Metrology.histogram('histogram').update(5)
         self.reporter.write()
-        self.assertTrue(mock.send.assert_called())
+        self.assertTrue(mock.sendall.called)
         self.assertEqual(25, len(mock.sendall.call_args_list))
         self.reporter.stop()
