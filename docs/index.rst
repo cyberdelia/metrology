@@ -16,6 +16,7 @@ Table Of Contents
    installation
    instruments
    reporters
+   wsgi
 
 Indices and tables
 ==================
