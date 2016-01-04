@@ -2,13 +2,23 @@ language: python
 sudo: required
 dist: trusty
 python:
-  - 3.5
+- 3.5
 env:
-  - TOXENV=py27
-  - TOXENV=pypy
-  - TOXENV=py34
-  - TOXENV=py35
+- TOXENV=py27
+- TOXENV=pypy
+- TOXENV=py34
+- TOXENV=py35
 install: pip install -q tox
 script: tox
+deploy:
+  provider: pypi
+  user: tim
+  distributions: sdist bdist_wheel
+  password:
+    secure: oi6C6PX090a99j+oskFPjjX0WQ2PhvhreXC9RzplRDKXWXSyGptHzJb6U6WLIFVk6VBcvQRB6U429slPCpto/Va4oYdtw6J3BLp8S2SMU/XboHeZkXhlJPf3WeQ/KaWJzeHAKhWb9wpuv9E5a/WTyKgHn0XkJX0q0s9faDYd1Z0=
+  on:
+    tags: true
+    repo: cyberdelia/metrology
+    condition: "$TOXENV = py27"
 notifications:
   email: false
