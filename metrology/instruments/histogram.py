@@ -30,8 +30,8 @@ class Histogram(object):
     def clear(self):
         self.sample.clear()
         self.counter.value = 0
-        self.minimum.value = None
-        self.maximum.value = None
+        self.minimum.value = sys.maxsize
+        self.maximum.value = (-sys.maxsize - 1)
         self.sum.value = 0
         self.var.value = [-1, 0]
 

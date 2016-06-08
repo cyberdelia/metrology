@@ -124,3 +124,11 @@ class HistogramTest(TestCase):
         histogram = Histogram(sample)
         histogram.update(5)
         self.assertEqual(5, histogram.min)
+
+    def test_clear(self):
+        histogram = HistogramExponentiallyDecaying()
+        histogram.clear()
+        histogram.update(5)
+        histogram.update(15)
+        self.assertEqual(5, histogram.min)
+        self.assertEqual(15, histogram.max)
