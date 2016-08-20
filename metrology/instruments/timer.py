@@ -17,6 +17,14 @@ class Timer(object):
         self.meter = Meter()
         self.histogram = histogram()
 
+    def __call__(self, *args, **kwargs):
+        if args and hasattr(args[0], '__call__'):
+            _orig_func = args[0]
+            def _decorator(*args, **kwargs):
+                with self:
+                    _orig_func(*args, **kwargs)
+            return _decorator
+
     def clear(self):
         self.meter.clear()
         self.histogram.clear()

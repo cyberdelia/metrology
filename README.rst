@@ -53,6 +53,21 @@ In addition to the mean rate, you can also track 1, 5 and 15 minutes moving aver
     meter.mark()
     meter.count
 
+or as a decorator:
+
+.. code-block:: python
+
+    @Metrology.meter('requests')
+    def do_this_again():
+        # do something
+
+or with context manager:
+
+.. code-block:: python
+
+    with Metrology.meter('requests'):
+        # do something
+
 Timers
 ------
 
@@ -63,6 +78,14 @@ A timer measures both the rate that a particular piece of code is called and the
     timer = Metrology.timer('responses')
     with timer:
         do_something()
+
+or as a decorator:
+
+.. code-block:: python
+
+    @Metrology.timer('responses')
+    def response():
+        # do_something
 
 
 Utilization Timer

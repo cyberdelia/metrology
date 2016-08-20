@@ -34,5 +34,20 @@ class MeterTest(TestCase):
             thread.join()
         self.assertEqual(1000, self.meter.count)
 
+    def test_meter_decorator(self):
+        @self.meter
+        def _test_decorator():
+            pass
+
+        for i in range (500):
+            _test_decorator()
+        self.assertEqual(500, self.meter.count)
+
+    def test_meter_context_manager(self):
+        for i in range(275):
+            with self.meter:
+                pass
+        self.assertEqual(275, self.meter.count)
+
     def tearDown(self):
         self.meter.stop()

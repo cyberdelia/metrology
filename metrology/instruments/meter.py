@@ -43,6 +43,20 @@ class Meter(object):
             for _ in range(ticks):
                 self.tick()
 
+    def __call__(self, *args, **kwargs):
+        if args and hasattr(args[0], '__call__'):
+            _orig_func = args[0]
+            def _decorator(*args, **kwargs):
+                with self:
+                    _orig_func(*args, **kwargs)
+            return _decorator
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc, exv, trace):
+        self.mark()
+
     @property
     def count(self):
         """Returns the total number of events that have been recorded."""

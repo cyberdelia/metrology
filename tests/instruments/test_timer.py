@@ -19,6 +19,25 @@ class TimerTest(TestCase):
         self.assertAlmostEqual(100, self.timer.mean, delta=10)
         self.assertAlmostEqual(100, self.timer.snapshot.median, delta=10)
 
+    def test_timer_decorator(self):
+        @self.timer
+        def _test_decorator():
+            time.sleep(0.075)
+
+        for i in range(3):
+            _test_decorator()
+
+        self.assertAlmostEqual(75, self.timer.mean, delta=10)
+        self.assertAlmostEqual(75, self.timer.snapshot.median, delta=10)
+
+    def test_timer_context_manager(self):
+        for i in range(3):
+            with self.timer:
+                time.sleep(0.035)
+
+        self.assertAlmostEqual(35, self.timer.mean, delta=10)
+        self.assertAlmostEqual(35, self.timer.snapshot.median, delta=10)
+
 
 class UtilizationTimerTest(TestCase):
     def setUp(self):
