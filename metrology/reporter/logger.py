@@ -46,7 +46,7 @@ class LoggerReporter(Reporter):
                 ])
             if isinstance(metric, Timer):
                 self.log_metric(name, 'timer', metric, [
-                    'count', 'one_minute_rate', 'five_minute_rate',
+                    'total_time', 'count', 'one_minute_rate', 'five_minute_rate',
                     'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev'
                 ], [
