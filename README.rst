@@ -145,6 +145,23 @@ A ganglia reporter that sends metrics to gmond.
     reporter = GangliaReporter("Group Name", "localhost", 8649, "udp", interval=60)
     reporter.start()
 
+StatsD Reporter
+----------------
+
+A statsd reporter that sends metrics to statsd daemon.
+
+.. code-block:: python
+
+    reporter = StatsDReporter('localhost', 3333, conn_type='tcp')
+    reporter.start()
+
+or use default UDP setting:
+
+.. code-block:: python
+
+    reporter = StatsDReporter('localhost', 3333)
+    reporter.start()
+
 
 Acknowledgement
 ===============
