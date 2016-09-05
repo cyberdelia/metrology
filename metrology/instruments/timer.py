@@ -1,5 +1,6 @@
 from astrolabe.interval import Interval
 
+from atomic import AtomicLong
 from metrology.instruments.histogram import HistogramExponentiallyDecaying
 from metrology.instruments.meter import Meter
 
@@ -14,6 +15,7 @@ class Timer(object):
 
     """
     def __init__(self, histogram=HistogramExponentiallyDecaying):
+        self._total_time = AtomicLong(0) 
         self.meter = Meter()
         self.histogram = histogram()
 
@@ -34,6 +36,7 @@ class Timer(object):
         if duration >= 0:
             self.meter.mark()
             self.histogram.update(duration)
+            self._total_time += duration
 
     @property
     def snapshot(self):
@@ -51,6 +54,11 @@ class Timer(object):
     def count(self):
         """Returns the number of measurements that have been made."""
         return self.histogram.count
+
+    @property
+    def total_time(self):
+        """Returns the number of measurements that have been made."""
+        return self._total_time.value
 
     @property
     def one_minute_rate(self):
