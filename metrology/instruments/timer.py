@@ -48,6 +48,11 @@ class Timer(object):
         self.update(duration)
 
     @property
+    def total_time(self):
+        """Returns the number of measurements that have been made."""
+        return self.histogram.total
+
+    @property
     def count(self):
         """Returns the number of measurements that have been made."""
         return self.histogram.count

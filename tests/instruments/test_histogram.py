@@ -11,6 +11,12 @@ class HistogramTest(TestCase):
         histogram = HistogramUniform()
         histogram.update(5)
         histogram.update(10)
+        self.assertEqual(15, histogram.total)
+
+    def test_uniform_sample_min(self):
+        histogram = HistogramUniform()
+        histogram.update(5)
+        histogram.update(10)
         self.assertEqual(5, histogram.min)
 
     def test_uniform_sample_max(self):

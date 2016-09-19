@@ -71,7 +71,7 @@ class GraphiteReporter(Reporter):
                 ])
             if isinstance(metric, Timer):
                 self.send_metric(name, 'timer', metric, [
-                    'count', 'one_minute_rate', 'five_minute_rate',
+                    'count', 'total_time', 'one_minute_rate', 'five_minute_rate',
                     'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev'
                 ], [
