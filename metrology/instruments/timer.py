@@ -49,7 +49,7 @@ class Timer(object):
 
     @property
     def total_time(self):
-        """Returns the number of measurements that have been made."""
+        """Returns the total time spent."""
         return self.histogram.total
 
     @property
