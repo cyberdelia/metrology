@@ -16,6 +16,7 @@ class TimerTest(TestCase):
         for i in range(3):
             with self.timer:
                 time.sleep(0.1)
+        self.assertAlmostEqual(300, self.timer.total_time, delta=20)
         self.assertAlmostEqual(100, self.timer.mean, delta=10)
         self.assertAlmostEqual(100, self.timer.snapshot.median, delta=10)
 

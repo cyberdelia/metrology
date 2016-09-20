@@ -81,6 +81,11 @@ class Histogram(object):
     min = property(get_min, set_min, doc="""Returns the minimum value.""")
 
     @property
+    def total(self):
+        """Returns the total value."""
+        return self.sum.value
+
+    @property
     def mean(self):
         """Returns the mean value."""
         if self.counter.value > 0:
