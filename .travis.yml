@@ -2,12 +2,13 @@ language: python
 sudo: required
 dist: trusty
 python:
-- 3.5
+- 3.6
 env:
 - TOXENV=py27
 - TOXENV=pypy
 - TOXENV=py34
 - TOXENV=py35
+- TOXENV=py36
 install: pip install -q tox
 script: tox
 deploy:
