@@ -17,6 +17,9 @@ class Gauge(object):
       gauge = Metrology.gauge('pending-jobs', JobGauge())
 
     """
+    def __call__(self, *args, **kwargs):
+        return self.value
+
     @property
     def value(self):
         """"""
