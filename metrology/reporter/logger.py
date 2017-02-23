@@ -1,6 +1,13 @@
 import logging
 
-from metrology.instruments import *  # noqa
+from metrology.instruments import (
+    Counter,
+    Gauge,
+    Histogram,
+    Meter,
+    Timer,
+    UtilizationTimer
+)
 from metrology.reporter.base import Reporter
 
 
@@ -46,8 +53,8 @@ class LoggerReporter(Reporter):
                 ])
             if isinstance(metric, Timer):
                 self.log_metric(name, 'timer', metric, [
-                    'count', 'total_time', 'one_minute_rate', 'five_minute_rate',
-                    'fifteen_minute_rate', 'mean_rate',
+                    'count', 'total_time', 'one_minute_rate',
+                    'five_minute_rate', 'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev'
                 ], [
                     'median', 'percentile_95th'
@@ -79,6 +86,7 @@ class LoggerReporter(Reporter):
         if hasattr(metric, 'snapshot'):
             snapshot = metric.snapshot
             for name in snapshot_keys:
-                messages.append("{0}={1}".format(name, getattr(snapshot, name)))
+                messages.append("{0}={1}".format(name,
+                                                 getattr(snapshot, name)))
 
         self.logger.log(self.level, " ".join(messages))

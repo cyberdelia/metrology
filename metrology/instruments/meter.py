@@ -16,8 +16,11 @@ def ticker(method):
 
 
 class Meter(object):
-    """A meter measures the rate of events over time (e.g., "requests per second").
-    In addition to the mean rate, you can also track 1, 5 and 15 minutes moving averages ::
+    """A meter measures the rate of events over time
+    (e.g., "requests per second").
+
+    In addition to the mean rate, you can also track 1, 5 and 15 minutes moving
+    averages ::
 
       meter = Metrology.meter('requests')
       meter.mark()
@@ -46,6 +49,7 @@ class Meter(object):
     def __call__(self, *args, **kwargs):
         if args and hasattr(args[0], '__call__'):
             _orig_func = args[0]
+
             def _decorator(*args, **kwargs):
                 with self:
                     _orig_func(*args, **kwargs)
@@ -106,7 +110,9 @@ class Meter(object):
 
     @property
     def mean_rate(self):
-        """Returns the mean rate of the events since the start of the process."""
+        """
+        Returns the mean rate of the events since the start of the process.
+        """
         if self.counter.value == 0:
             return 0.0
         else:

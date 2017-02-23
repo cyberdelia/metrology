@@ -39,7 +39,7 @@ class MeterTest(TestCase):
         def _test_decorator():
             pass
 
-        for i in range (500):
+        for i in range(500):
             _test_decorator()
         self.assertEqual(500, self.meter.count)
 

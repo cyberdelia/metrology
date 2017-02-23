@@ -3,7 +3,14 @@ import inspect
 from threading import RLock
 
 from metrology.exceptions import RegistryException
-from metrology.instruments import Counter, Derive, Meter, Timer, UtilizationTimer, HistogramUniform
+from metrology.instruments import (
+    Counter,
+    Derive,
+    HistogramUniform,
+    Meter,
+    Timer,
+    UtilizationTimer
+)
 
 
 class Registry(object):
@@ -51,7 +58,8 @@ class Registry(object):
     def add(self, name, metric):
         with self.lock:
             if name in self.metrics:
-                raise RegistryException("{0} already present in the registry.".format(name))
+                raise RegistryException("{0} already present "
+                                        "in the registry.".format(name))
             else:
                 self.metrics[name] = metric
 
@@ -60,7 +68,8 @@ class Registry(object):
             metric = self.metrics.get(name)
             if metric is not None:
                 if not isinstance(metric, klass):
-                    raise RegistryException("{0} is not of type {1}.".format(name, klass))
+                    raise RegistryException("{0} is not of "
+                                            "type {1}.".format(name, klass))
             else:
                 if inspect.isclass(klass):
                     metric = klass()
@@ -76,5 +85,6 @@ class Registry(object):
         with self.lock:
             for name, metric in self.metrics.items():
                 yield name, metric
+
 
 registry = Registry()

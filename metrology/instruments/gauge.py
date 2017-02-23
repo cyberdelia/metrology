@@ -24,7 +24,10 @@ class Gauge(object):
 
 
 class RatioGauge(Gauge):
-    """A ratio gauge is a simple way to create a gauge which is the ratio between two numbers"""
+    """
+    A ratio gauge is a simple way to create a gauge which is
+    the ratio between two numbers.
+    """
     def numerator(self):
         raise NotImplementedError
 
@@ -40,7 +43,10 @@ class RatioGauge(Gauge):
 
 
 class PercentGauge(RatioGauge):
-    """A percent gauge is a ratio gauge where the result is normalized to a value between 0 and 100."""
+    """
+    A percent gauge is a ratio gauge where the result is normalized
+    to a value between 0 and 100.
+    """
     @property
     def value(self):
         value = super(PercentGauge, self).value

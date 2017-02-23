@@ -51,7 +51,8 @@ class ExponentiallyDecayingSample(object):
         self.alpha = alpha
         self.reservoir_size = reservoir_size
         self.lock = RLock()
-        self.rescale_threshold = ExponentiallyDecayingSample.calculate_rescale_threshold(alpha)
+        self.rescale_threshold = \
+            ExponentiallyDecayingSample.calculate_rescale_threshold(alpha)
         self.clear()
 
     @staticmethod
@@ -68,7 +69,8 @@ class ExponentiallyDecayingSample(object):
         with self.lock:
             self.values = []
             self.start_time = now()
-            self.next_scale_time.value = self.start_time + self.rescale_threshold
+            self.next_scale_time.value = \
+                self.start_time + self.rescale_threshold
 
     def size(self):
         with self.lock:
@@ -85,7 +87,9 @@ class ExponentiallyDecayingSample(object):
         return math.exp(self.alpha * (timestamp - self.start_time))
 
     def rescale(self, now, next_time):
-        if self.next_scale_time.compare_and_swap(next_time, now + self.rescale_threshold):
+        if self.next_scale_time.compare_and_swap(
+            next_time, now + self.rescale_threshold
+        ):
             with self.lock:
                 rescaleFactor = math.exp(-self.alpha * (now - self.start_time))
                 self.values = [(k * rescaleFactor, v) for k, v in self.values]

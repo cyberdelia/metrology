@@ -9,12 +9,15 @@ from metrology.stats.sample import UniformSample, ExponentiallyDecayingSample
 
 class Histogram(object):
     """
-    A histogram measures the statistical distribution of values in a stream of data. In addition to minimum, maximum, mean, it also measures median, 75th, 90th, 95th, 98th, 99th, and 99.9th percentiles ::
+    A histogram measures the statistical distribution of values in a stream of
+    data. In addition to minimum, maximum, mean, it also measures median,
+    75th, 90th, 95th, 98th, 99th, and 99.9th percentiles ::
 
       histogram = Metrology.histogram('response-sizes')
       histogram.update(len(response.content))
 
-    Metrology provides two types of histograms: uniform and exponentially decaying.
+    Metrology provides two types of histograms: uniform and exponentially
+    decaying.
     """
     DEFAULT_SAMPLE_SIZE = 1028
     DEFAULT_ALPHA = 0.015
@@ -124,9 +127,13 @@ class Histogram(object):
 
 class HistogramUniform(Histogram):
     """
-    A uniform histogram produces quantiles which are valid for the entirely of the histogram's lifetime. It will return a median value, for example, which is the median of all the values the histogram has ever been updated with.
+    A uniform histogram produces quantiles which are valid for the entirely of
+    the histogram's lifetime. It will return a median value, for example, which
+    is the median of all the values the histogram has ever been updated with.
 
-    Use a uniform histogram when you're interested in long-term measurements. Don't use one where you'd want to know if the distribution of the underlying data stream has changed recently.
+    Use a uniform histogram when you're interested in long-term measurements.
+    Don't use one where you'd want to know if the distribution of the
+    underlying data stream has changed recently.
     """
     def __init__(self):
         sample = UniformSample(self.DEFAULT_SAMPLE_SIZE)
@@ -135,9 +142,15 @@ class HistogramUniform(Histogram):
 
 class HistogramExponentiallyDecaying(Histogram):
     """
-    A exponentially decaying histogram produces quantiles which are representative of approximately the last five minutes of data.
-    Unlike the uniform histogram, a biased histogram represents recent data, allowing you to know very quickly if the distribution of the data has changed.
+    A exponentially decaying histogram produces quantiles which are
+    representative of approximately the last five minutes of data.
+
+    Unlike the uniform histogram, a biased histogram represents recent data,
+    allowing you to know very quickly if the distribution of the data has
+    changed.
+
     """
     def __init__(self):
-        sample = ExponentiallyDecayingSample(self.DEFAULT_SAMPLE_SIZE, self.DEFAULT_ALPHA)
+        sample = ExponentiallyDecayingSample(self.DEFAULT_SAMPLE_SIZE,
+                                             self.DEFAULT_ALPHA)
         super(HistogramExponentiallyDecaying, self).__init__(sample)

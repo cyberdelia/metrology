@@ -4,7 +4,6 @@ try:
 except ImportError:
     from io import StringIO  # noqa
     from unittest.mock import patch  # noqa
-import unittest
 from unittest import TestCase
 
 from metrology import Metrology

@@ -17,7 +17,8 @@ class GraphiteReporterTest(TestCase):
 
     @patch.object(GraphiteReporter, 'socket')
     def test_send_nobatch(self, mock):
-        self.reporter = GraphiteReporter('localhost', 3334, pickle=True, batch_size=1)
+        self.reporter = GraphiteReporter('localhost', 3334,
+                                         pickle=True, batch_size=1)
 
         Metrology.meter('meter').mark()
         Metrology.counter('counter').increment()
@@ -31,7 +32,8 @@ class GraphiteReporterTest(TestCase):
 
     @patch.object(GraphiteReporter, 'socket')
     def test_send_batch(self, mock):
-        self.reporter = GraphiteReporter('localhost', 3334, pickle=True, batch_size=2)
+        self.reporter = GraphiteReporter('localhost', 3334,
+                                         pickle=True, batch_size=2)
 
         Metrology.meter('meter').mark()
         Metrology.counter('counter').increment()

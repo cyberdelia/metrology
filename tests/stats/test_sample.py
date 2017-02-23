@@ -69,7 +69,8 @@ class ExponentiallyDecayingSampleTest(TestCase):
         timestamp->priority function is a no-op.
         """
         weight_fn = "metrology.stats.sample.ExponentiallyDecayingSample.weight"
-        return patch(weight_fn, lambda self, x: x)(patch("random.random", lambda: 1.0)(f))
+        return patch(weight_fn, lambda self, x: x)(patch("random.random",
+                                                         lambda: 1.0)(f))
 
     @timestamp_to_priority_is_noop
     def test_sample_eviction(self):
@@ -122,7 +123,8 @@ class ExponentiallyDecayingSampleTest(TestCase):
     def test_rescale_threshold(self):
         infinity = float('inf')
         for alpha in (0.015, 1e-10, 1):
-            rescale_threshold = ExponentiallyDecayingSample.calculate_rescale_threshold(alpha)
+            rescale_threshold = \
+                ExponentiallyDecayingSample.calculate_rescale_threshold(alpha)
             min_rand_val = 1.0 / (2 ** 32)
             max_priority = math.exp(alpha * rescale_threshold) / min_rand_val
             self.assertLess(max_priority, infinity)

@@ -23,7 +23,8 @@ class TestServer(object):
         return self.request('get', *args, **kwargs)
 
     def request(self, method, path, *args, **kwargs):
-        url = 'http://{0[0]}:{0[1]}{1}'.format(self.server.server_address, path)
+        url = 'http://{0[0]}:{0[1]}{1}'.format(self.server.server_address,
+                                               path)
         thread = threading.Thread(target=self.server.handle_request)
         thread.start()
         response = requests.request(method, url, *args, **kwargs)

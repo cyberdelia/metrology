@@ -6,7 +6,8 @@ from metrology.instruments.meter import Meter
 
 class Timer(object):
     """
-    A timer measures both the rate that a particular piece of code is called and the distribution of its duration ::
+    A timer measures both the rate that a particular piece of code is called
+    and the distribution of its duration ::
 
       timer = Metrology.timer('responses')
       with timer:
@@ -20,6 +21,7 @@ class Timer(object):
     def __call__(self, *args, **kwargs):
         if args and hasattr(args[0], '__call__'):
             _orig_func = args[0]
+
             def _decorator(*args, **kwargs):
                 with self:
                     _orig_func(*args, **kwargs)
@@ -74,7 +76,9 @@ class Timer(object):
 
     @property
     def mean_rate(self):
-        """Returns the mean rate of the events since the start of the process."""
+        """
+        Returns the mean rate of the events since the start of the process.
+        """
         return self.meter.mean_rate
 
     @property
@@ -94,7 +98,9 @@ class Timer(object):
 
     @property
     def stddev(self):
-        """Returns the standard deviation of the mean spent in the operation."""
+        """
+        Returns the standard deviation of the mean spent in the operation.
+        """
         return self.histogram.stddev
 
     def stop(self):
@@ -103,7 +109,8 @@ class Timer(object):
 
 class UtilizationTimer(Timer):
     """
-    A specialized timer that calculates the percentage of wall-clock time that was spent ::
+    A specialized timer that calculates the percentage of wall-clock time that
+    was spent ::
 
       utimer = Metrology.utilization_timer('responses')
       with utimer:
@@ -140,7 +147,10 @@ class UtilizationTimer(Timer):
 
     @property
     def mean_utilization(self):
-        """Returns the mean (average) utilization as a percentage since the process started."""
+        """
+        Returns the mean (average) utilization as a percentage since the
+        process started.
+        """
         return self.duration_meter.mean_rate
 
     def stop(self):

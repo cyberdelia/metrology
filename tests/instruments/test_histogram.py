@@ -7,7 +7,7 @@ from metrology.instruments.histogram import Histogram, HistogramUniform, \
 
 
 class HistogramTest(TestCase):
-    def test_uniform_sample_min(self):
+    def test_uniform_sample_total(self):
         histogram = HistogramUniform()
         histogram.update(5)
         histogram.update(10)

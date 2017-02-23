@@ -3,7 +3,14 @@ import re
 from json import dumps
 
 from metrology.exceptions import ReporterException
-from metrology.instruments import *  # noqa
+from metrology.instruments import (
+    Counter,
+    Gauge,
+    Histogram,
+    Meter,
+    Timer,
+    UtilizationTimer,
+)
 from metrology.reporter.base import Reporter
 from metrology.utils import now
 
@@ -30,7 +37,8 @@ class LibratoReporter(Reporter):
         try:
             import requests  # noqa
         except:
-            raise ReporterException("Librato reporter requires the 'requests' library")
+            raise ReporterException("Librato reporter requires the "
+                                    "'requests' library")
 
         self.filters = options.get('filters')
         self.excludes = options.get('excludes')
@@ -61,8 +69,8 @@ class LibratoReporter(Reporter):
                 ])
             if isinstance(metric, Timer):
                 yield self.prepare_metric(name, 'timer', metric, [
-                    'count', 'total_time', 'one_minute_rate', 'five_minute_rate',
-                    'fifteen_minute_rate', 'mean_rate',
+                    'count', 'total_time', 'one_minute_rate',
+                    'five_minute_rate', 'fifteen_minute_rate', 'mean_rate',
                     'min', 'max', 'mean', 'stddev'
                 ], [
                     'median', 'percentile_95th'
@@ -81,8 +89,10 @@ class LibratoReporter(Reporter):
     def write(self):
         import requests
         metrics = {
-            "gauges": [data for metric in self.list_metrics() for type, data in metric if type == "gauge"],
-            "counters": [data for metric in self.list_metrics() for type, data in metric if type == "counter"]
+            "gauges": [data for metric in self.list_metrics()
+                       for type, data in metric if type == "gauge"],
+            "counters": [data for metric in self.list_metrics()
+                         for type, data in metric if type == "counter"]
         }
         requests.post("https://metrics-api.librato.com/v1/metrics",
                       data=dumps(metrics),
@@ -99,11 +109,14 @@ class LibratoReporter(Reporter):
 
         if self.filters:
             keys = filter(lambda key: key in self.filters, keys)
-            snapshot_keys = filter(lambda key: key in self.filters, snapshot_keys)
+            snapshot_keys = filter(lambda key: key in self.filters,
+                                   snapshot_keys)
 
         if self.excludes:
-            keys = filter(lambda key: key not in self.excludes, keys)
-            snapshot_keys = filter(lambda key: key in self.excludes, snapshot_keys)
+            keys = filter(lambda key: key not in self.excludes,
+                          keys)
+            snapshot_keys = filter(lambda key: key in self.excludes,
+                                   snapshot_keys)
 
         for name in keys:
             value = getattr(metric, name)

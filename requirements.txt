@@ -1,7 +1,4 @@
-astrolabe
-atomic
-mock
-pytest
-requests
-tox
+astrolabe>=0.4.0
+atomic>=0.7.0
 ganglia
+requests

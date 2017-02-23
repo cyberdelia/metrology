@@ -4,7 +4,14 @@ import pickle
 import struct
 import sys
 
-from metrology.instruments import *  # noqa
+from metrology.instruments import (
+    Counter,
+    Gauge,
+    Histogram,
+    Meter,
+    Timer,
+    UtilizationTimer
+)
 from metrology.reporter.base import Reporter
 from metrology.utils import now
 
@@ -67,15 +74,17 @@ class GraphiteReporter(Reporter):
                     'one_minute_utilization', 'five_minute_utilization',
                     'fifteen_minute_utilization', 'mean_utilization'
                 ], [
-                    'median', 'percentile_95th', 'percentile_99th', 'percentile_999th'
+                    'median', 'percentile_95th', 'percentile_99th',
+                    'percentile_999th'
                 ])
             if isinstance(metric, Timer):
                 self.send_metric(name, 'timer', metric, [
-                    'count', 'total_time', 'one_minute_rate', 'five_minute_rate',
-                    'fifteen_minute_rate', 'mean_rate',
+                    'count', 'total_time', 'one_minute_rate',
+                    'fifteen_minute_rate', 'mean_rate', 'five_minute_rate',
                     'min', 'max', 'mean', 'stddev'
                 ], [
-                    'median', 'percentile_95th', 'percentile_99th', 'percentile_999th'
+                    'median', 'percentile_95th', 'percentile_99th',
+                    'percentile_999th'
                 ])
             if isinstance(metric, Counter):
                 self.send_metric(name, 'counter', metric, [
@@ -85,7 +94,8 @@ class GraphiteReporter(Reporter):
                 self.send_metric(name, 'histogram', metric, [
                     'count', 'min', 'max', 'mean', 'stddev',
                 ], [
-                    'median', 'percentile_95th', 'percentile_99th', 'percentile_999th'
+                    'median', 'percentile_95th', 'percentile_99th',
+                    'percentile_999th'
                 ])
 
         # Send metrics that might be in buffers
@@ -110,7 +120,8 @@ class GraphiteReporter(Reporter):
                 value = getattr(snapshot, name)
                 self._buffered_send_metric(base_name, name, value, now())
 
-    def _buffered_plaintext_send_metric(self, base_name, name, value, t, force=False):
+    def _buffered_plaintext_send_metric(self, base_name, name, value, t,
+                                        force=False):
         self.batch_count += 1
         self.batch_buffer += "{0}.{1} {2} {3}\n".format(
             base_name, name, value, now())
@@ -120,7 +131,8 @@ class GraphiteReporter(Reporter):
 
     def _buffered_pickle_send_metric(self, base_name, name, value, t):
         self.batch_count += 1
-        self.batch_buffer.append(("{0}.{1}".format(base_name, name), (t, value)))
+        self.batch_buffer.append(("{0}.{1}".format(base_name, name),
+                                 (t, value)))
         # Check if we reach batch size and send
         if self.batch_count >= self.batch_size:
             self._send_pickle()
