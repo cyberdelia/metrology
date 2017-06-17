@@ -24,7 +24,7 @@ class Timer(object):
 
             def _decorator(*args, **kwargs):
                 with self:
-                    _orig_func(*args, **kwargs)
+                    return _orig_func(*args, **kwargs)
             return _decorator
 
     def clear(self):
