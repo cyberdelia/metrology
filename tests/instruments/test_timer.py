@@ -39,7 +39,7 @@ class TimerTest(TestCase):
         def _test_decorator_return_value():
             return expected_return_value
 
-        self.assertEqual(expected_return_value, _test_decorator_return_value)
+        self.assertEqual(expected_return_value, _test_decorator_return_value())
 
     def test_timer_context_manager(self):
         for i in range(3):
