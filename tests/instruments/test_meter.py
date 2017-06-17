@@ -35,12 +35,14 @@ class MeterTest(TestCase):
         self.assertEqual(1000, self.meter.count)
 
     def test_meter_decorator(self):
+        expected_return_value = 'meter'
+
         @self.meter
         def _test_decorator():
-            pass
+            return expected_return_value
 
         for i in range(500):
-            _test_decorator()
+            self.assertEqual(expected_return_value, _test_decorator())
         self.assertEqual(500, self.meter.count)
 
     def test_meter_context_manager(self):

@@ -25,11 +25,21 @@ class TimerTest(TestCase):
         def _test_decorator():
             time.sleep(0.075)
 
+        self.timer.clear()
         for i in range(3):
             _test_decorator()
 
         self.assertAlmostEqual(75, self.timer.mean, delta=10)
         self.assertAlmostEqual(75, self.timer.snapshot.median, delta=10)
+
+    def test_timer_decorator_return_value(self):
+        expected_return_value = 'timer'
+
+        @self.timer
+        def _test_decorator_return_value():
+            return expected_return_value
+
+        self.assertEqual(expected_return_value, _test_decorator_return_value())
 
     def test_timer_context_manager(self):
         for i in range(3):
