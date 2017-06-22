@@ -1,0 +1,244 @@
+CHANGES
+=======
+
+1.2.4
+-----
+
+* Bump version
+
+1.2.3
+-----
+
+* bump version
+* For timer/meter decorators, return the return value (#35)
+* Gardening (#32)
+
+1.2.2
+-----
+
+* bump version
+* Test against python 3.6
+* Send more detailed metrics from statsd reporter (#31)
+* fix doc
+
+1.2.1
+-----
+
+* bump version
+* Add total time to Timer (#30)
+* Added 99th and 999th percentile to Graphite reporter. (#27)
+
+1.2.0
+-----
+
+* bump version
+* Implement StatsD reporter (#26)
+* Update authors file
+
+1.1.0
+-----
+
+* bump version
+* Allow to use timer and meter as decorators and with context manager (#24)
+* Py3 compatibility for plaintext Graphite reporter (#23)
+
+1.0.1
+-----
+
+* bump version
+* Fix histogram clearance. Close #21 (#22)
+
+1.0.0
+-----
+
+* bump version
+* Publish from travis-ci
+* Add basic WSGI documentation
+* Add basic wsgi middleware
+* Ensure we run against trusty
+* Update tests
+
+0.10.1
+------
+
+* bump version
+* ensure new tick is an integer
+* use gcc >= 4.7 on travis
+* remove profiler mention
+* unbreaking upload
+
+0.10.0
+------
+
+* bump version
+* use new Atomic classes
+* bump version
+
+0.9.1
+-----
+
+* bump version
+* update travis-ci configuration
+* graphite reporter. fix socket.sendall mistyping
+* graphite reporter. fix socket.sendall mistyping
+* add wheel support
+* add missing @properry. close #16
+
+0.9.0
+-----
+
+* bump version
+* add a ganglia reporter
+
+0.8.0
+-----
+
+* bump version
+* drop 2.6 support
+* update AUTHORS
+* refactor ExponentiallyDecayingSample
+* bump version
+* fix meter ticking. close #12
+* Added graphite pickle protocol as well as buffering
+
+0.7.2
+-----
+
+* bump version
+* fix stdev calculation
+* update authors
+* fix tests formatting
+* Use Python syntax highlighting in the readme file
+* silence pip install
+* add docs build in tox
+
+0.7.1
+-----
+
+* bump version
+* going threadless for meter, following metrics path
+* pep8 cleanups
+* make travis ci run python 3.3
+
+0.7.0
+-----
+
+* bump version
+* add derive instrument
+* make PeriodicTask a deamon thread
+
+0.6.3
+-----
+
+* bump version
+* make it run with python 3.3
+* don't require statprof as a dependency
+* re-add statprof as dependency
+
+0.6.2
+-----
+
+* bump version
+* Sets the content-type to JSON when writing to Librato
+
+0.6.1
+-----
+
+* bump version
+* fix sample OverflowError
+* cleanup imports
+* remove statprof from python3 test env
+
+0.6
+---
+
+* bump version
+* warn about profiler not working on python 3
+* skip profiler test for python3
+* adding a Profiler instrument
+* fix typo in logger reporter
+* fix typo in graphite reporter
+* fix stddev return value
+* remove statsd reporter import
+* remove non-working statsd reporter for now
+* add astrolabe in requirements
+
+0.5
+---
+
+* bump version
+* require newest astrolabe
+* use astrolabe for timers
+* fix typo
+* bump version
+* Fixing Graphite & statsd socket error
+* fix python 2.6 tests
+* add requirements.txt file
+* run tests for jython too
+
+0.4
+---
+
+* bump version
+* update README with the new librato reporter
+* add docs and tests for librato reporter
+* make librato reporter actually report data
+* add missing project files
+* improve package description
+
+0.3.3
+-----
+
+* bump version
+* add missing MANIFEST
+* make README more complete
+* add some reporter documentation
+* raise a RegistryException rahter than a RuntimeError
+* use new format
+* prettier code, fixed one typo, import just time.time
+
+0.3.2
+-----
+
+* bump version
+* make counter more atomic
+
+0.3.1
+-----
+
+* update requirements and bump version
+
+0.3
+---
+
+* bump version
+* make it work with atomic 0.3
+* remove empty docstring
+
+0.2
+---
+
+* pep8 fix
+* add health check
+* prepare for next version
+* use docstring to provide better documentation
+* add access to histogram
+* add base docs
+* add base sphinx files
+* add acknowledgement
+* small steps towards more reporter
+* dumb work on librato reporter
+* a less naïve periodic task implementation
+* fix tests formatting
+* improve README
+* add graphite reporter
+* fix tests for python 2.6 and 3.2
+* improve README
+* add logger reporter
+* add missing methods
+* improve README
+* week-end project is still a thing
+* add base files
+* ignore files
+* fix typo
+* READ ME
