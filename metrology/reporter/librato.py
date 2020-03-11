@@ -36,7 +36,7 @@ class LibratoReporter(Reporter):
 
         try:
             import requests  # noqa
-        except:
+        except Exception:
             raise ReporterException("Librato reporter requires the "
                                     "'requests' library")
 
