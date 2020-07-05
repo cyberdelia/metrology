@@ -135,7 +135,7 @@ class StatsDReporter(Reporter):
         return self._socket
 
     def write(self):
-        for name, metric in self.registry:
+        for name, metric in self.registry.with_tags:
 
             if self._is_metric_supported(metric):
                 self.send_metric(name, metric)
@@ -182,8 +182,14 @@ class StatsDReporter(Reporter):
         #                statsd's documentation.
         template = '{name}:{value}|{m_type}\n'
 
+        name, tags = name if isinstance(name, tuple) else (name, None)
+
         if self.prefix:
             name = "{prefix}.{m_name}".format(prefix=self.prefix, m_name=name)
+
+        if tags:
+            tags = ",".join(["{0}={1}".format(k, v) for k, v in tags.items()])
+            name = "{name},{tags}".format(name=name, tags=tags)
 
         return template.format(name=name, value=value, m_type=m_type)
 

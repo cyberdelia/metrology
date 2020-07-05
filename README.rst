@@ -99,6 +99,25 @@ A specialized timer that calculates the percentage of wall-clock time that was s
     with utimer:
       do_something()
 
+Tagging metrics
+---------------
+
+All metrics can be tagged if the reporter supports it (currently: Graphite, Librato, Logger. The StatsD reporter supports the Datadog tag format because no official tag standard has been devised by the project).
+Tags can be arbitrary key-value pairs. Just assign a dict as metric name. A 'name'-entry is required.
+
+.. code-block:: python
+
+    counter = Metrology.counter({
+      'name': 'pending-jobs',
+      'host': 'backend',
+      'priority': 'high'
+    })
+    counter.increment()
+    counter.decrement()
+    counter.count
+
+All metric types support tagging.
+
 Reporters
 =========
 

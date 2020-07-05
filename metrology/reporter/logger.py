@@ -31,7 +31,7 @@ class LoggerReporter(Reporter):
         super(LoggerReporter, self).__init__(**options)
 
     def write(self):
-        for name, metric in self.registry:
+        for name, metric in self.registry.with_tags:
             if isinstance(metric, Meter):
                 self.log_metric(name, 'meter', metric, [
                     'count', 'one_minute_rate', 'five_minute_rate',
@@ -73,12 +73,19 @@ class LoggerReporter(Reporter):
     def log_metric(self, name, type, metric, keys, snapshot_keys=None):
         if snapshot_keys is None:
             snapshot_keys = []
+        name, tags = name if isinstance(name, tuple) else (name, None)
         messages = []
         if self.prefix:
             messages.append(self.prefix)
 
         messages.append(name)
         messages.append(type)
+
+        if tags is not None:
+            tag_msg = ", ".join(["{0}={1}".format(k, v)
+                                 for k, v in tags.items()])
+            tag_msg = "[{0}]".format(tag_msg)
+            messages.append(tag_msg)
 
         for name in keys:
             messages.append("{0}={1}".format(name, getattr(metric, name)))

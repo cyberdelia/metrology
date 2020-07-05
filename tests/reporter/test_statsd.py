@@ -73,3 +73,22 @@ class StatsDReporterTest(TestCase):
         self.assertTrue(mock.sendto.called)
         self.assertEqual(19, len(mock.sendto.call_args_list))
         self.reporter.stop()
+
+    @patch.object(StatsDReporter, 'socket')
+    def test_metric_w_tags(self, mock):
+        self.reporter = StatsDReporter('localhost', 3333,
+                                       batch_size=1, conn_type='tcp')
+
+        Metrology.meter({
+                'name': 'meter',
+                'type': 'A',
+                'category': 'B'
+            }).mark()
+        self.reporter.write()
+        self.assertTrue(mock.sendall.called)
+        sent_text = ''.join(call[0][0].decode("ascii")
+                            for call in mock.sendall.call_args_list)
+        self.assertIn('meter,', sent_text)
+        self.assertIn(',type=A', sent_text)
+        self.assertIn(',category=B', sent_text)
+        self.reporter.stop()

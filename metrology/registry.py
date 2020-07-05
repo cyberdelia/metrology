@@ -2,7 +2,7 @@ import inspect
 
 from threading import RLock
 
-from metrology.exceptions import RegistryException
+from metrology.exceptions import RegistryException, ArgumentException
 from metrology.instruments import (
     Counter,
     Derive,
@@ -53,19 +53,22 @@ class Registry(object):
 
     def get(self, name):
         with self.lock:
-            return self.metrics[name]
+            key = self._compose_key(name)
+            return self.metrics[key]
 
     def add(self, name, metric):
         with self.lock:
-            if name in self.metrics:
+            key = self._compose_key(name)
+            if key in self.metrics:
                 raise RegistryException("{0} already present "
                                         "in the registry.".format(name))
             else:
-                self.metrics[name] = metric
+                self.metrics[key] = metric
 
     def add_or_get(self, name, klass):
         with self.lock:
-            metric = self.metrics.get(name)
+            key = self._compose_key(name)
+            metric = self.metrics.get(key)
             if metric is not None:
                 if not isinstance(metric, klass):
                     raise RegistryException("{0} is not of "
@@ -75,16 +78,38 @@ class Registry(object):
                     metric = klass()
                 else:
                     metric = klass
-                self.metrics[name] = metric
+                self.metrics[key] = metric
             return metric
 
     def stop(self):
         self.clear()
 
+    def _compose_key(self, name):
+        if isinstance(name, dict):
+            if 'name' not in name:
+                raise ArgumentException('Tagged metric needs a name entry: '
+                                        + str(name))
+        else:
+            name = {'name': name}
+        return frozenset(name.items())
+
+    def _decompose_key(self, key):
+        key = dict(key)
+        name = key.pop('name')
+        return (name, key if len(key) > 0 else None)
+
     def __iter__(self):
         with self.lock:
-            for name, metric in self.metrics.items():
-                yield name, metric
+            for key, metric in self.metrics.items():
+                key = dict(key)
+                yield key['name'], metric
+
+    @property
+    def with_tags(self):
+        with self.lock:
+            for key, metric in self.metrics.items():
+                key = self._decompose_key(key)
+                yield key, metric
 
 
 registry = Registry()

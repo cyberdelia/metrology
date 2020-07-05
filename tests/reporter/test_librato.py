@@ -18,7 +18,10 @@ class LibratoReporterTest(TestCase):
         Metrology.meter('meter').mark()
         Metrology.counter('counter').increment()
         Metrology.timer('timer').update(5)
-        Metrology.utilization_timer('utimer').update(5)
+        Metrology.utilization_timer({
+                'name': 'utimer',
+                'type': 'A'
+            }).update(5)
 
     def tearDown(self):
         self.reporter.stop()
@@ -30,3 +33,5 @@ class LibratoReporterTest(TestCase):
         self.assertTrue(mock.called)
         self.assertTrue("gauges" in mock.call_args_list[0][1]['data'])
         self.assertTrue("counters" in mock.call_args_list[0][1]['data'])
+        self.assertTrue("tags" in mock.call_args_list[0][1]['data'])
+        self.assertTrue("type" in mock.call_args_list[0][1]['data'])

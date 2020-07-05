@@ -47,7 +47,7 @@ class LibratoReporter(Reporter):
         super(LibratoReporter, self).__init__(**options)
 
     def list_metrics(self):
-        for name, metric in self.registry:
+        for name, metric in self.registry.with_tags:
             if isinstance(metric, Meter):
                 yield self.prepare_metric(name, 'meter', metric, [
                     'count', 'one_minute_rate', 'five_minute_rate',
@@ -100,6 +100,7 @@ class LibratoReporter(Reporter):
                       headers={'content-type': 'application/json'})
 
     def prepare_metric(self, name, type, metric, keys, snapshot_keys=[]):
+        name, tags = name if isinstance(name, tuple) else (name, None)
         base_name = re.sub(r"\s+", "_", name)
         if self.prefix:
             base_name = "{0}.{1}".format(self.prefix, base_name)
@@ -120,20 +121,26 @@ class LibratoReporter(Reporter):
 
         for name in keys:
             value = getattr(metric, name)
-            yield type, {
+            data = {
                 "name": "{0}.{1}".format(base_name, name),
                 "source": self.source,
                 "time": time,
                 "value": value
             }
+            if tags is not None:
+                data['tags'] = tags
+            yield type, data
 
         if hasattr(metric, 'snapshot'):
             snapshot = metric.snapshot
             for name in snapshot_keys:
                 value = getattr(snapshot, name)
-                yield type, {
+                data = {
                     "name": "{0}.{1}".format(base_name, name),
                     "source": self.source,
                     "time": time,
                     "value": value
                 }
+            if tags is not None:
+                data['tags'] = tags
+            yield type, data

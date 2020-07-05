@@ -23,10 +23,29 @@ class LoggerReporterTest(TestCase):
         Metrology.timer('timer').update(5)
         Metrology.utilization_timer('utimer').update(5)
 
+        Metrology.meter({
+                'name': 'meter',
+                'hostname': 'testhost.test'
+            }).mark()
+        Metrology.counter({
+                'name': 'counter',
+                'hostname': 'testhost.test'
+            }).increment()
+        Metrology.timer({
+                'name': 'timer',
+                'hostname': 'testhost.test'
+            }).update(5)
+        Metrology.utilization_timer({
+                'name': 'utimer',
+                'hostname': 'testhost.test'
+            }).update(5)
+
     def tearDown(self):
         self.reporter.stop()
         Metrology.stop()
 
     def test_write(self):
         self.reporter.write()
-        self.assertTrue("median=" in self.output.getvalue())
+        output = self.output.getvalue()
+        self.assertTrue('median=' in output)
+        self.assertTrue('testhost.test' in output)
