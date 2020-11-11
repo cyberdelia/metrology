@@ -122,8 +122,11 @@ class GraphiteReporter(Reporter):
                     'percentile_999th'
                 ])
 
-        # Send metrics that might be in buffers
-        self._send()
+        # Send metrics that might be in buffers, catch any socket errors
+        try:
+            self._send()
+        except socket.error as e:
+            print ("Unable to send metrics: {0}".format(e))
 
     def send_metric(self, name, type, metric, keys, snapshot_keys=None):
         if snapshot_keys is None:
