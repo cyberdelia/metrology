@@ -1,4 +1,4 @@
 astrolabe>=0.4.0
-atomic>=0.7.0
+atomic>=0.7.3
 ganglia
 requests
